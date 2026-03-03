@@ -1,0 +1,16 @@
+{
+  "name": "Design Fee Live Estimate",
+  "short_name": "DFLE",
+  "description": "デザイン料金のライブ見積アプリ",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#8d1b3d",
+  "icons": [
+    {
+      "src": "DFLE.png",
+      "type": "image/png"
+    }
+  ]
+}

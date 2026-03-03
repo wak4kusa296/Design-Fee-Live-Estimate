@@ -4,8 +4,11 @@
   <meta charset="UTF-8" />
   <title>デザイン料金 見積もりシミュレーター</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" type="image/png" href="DFLE.png" />
   <link rel="apple-touch-icon" href="DFLE.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="theme-color" content="#8d1b3d" />
   <style>
     :root {
@@ -1178,6 +1181,12 @@
 
   <script>
     (function () {
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("./service-worker.js").catch(() => {});
+        });
+      }
+
       const tbody = document.getElementById("items-body");
 
       const totalAmountEl = document.getElementById("total-amount");
