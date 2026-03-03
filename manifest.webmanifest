@@ -6,7 +6,7 @@
   "scope": "./",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#8d1b3d",
+  "theme_color": "#ffffff",
   "icons": [
     {
       "src": "DFLE.png",

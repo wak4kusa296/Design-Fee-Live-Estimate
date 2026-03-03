@@ -2,14 +2,14 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <title>デザイン料金 見積もりシミュレーター</title>
+  <title>Design Fee Live Estimate</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" type="image/png" href="DFLE.png" />
   <link rel="apple-touch-icon" href="DFLE.png" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="theme-color" content="#8d1b3d" />
+  <meta name="theme-color" content="#ffffff" />
   <style>
     :root {
       --bg: #ffffff;
@@ -40,6 +40,7 @@
 
     html {
       min-height: 100dvh;
+      background: #ffffff;
       scrollbar-width: none;
       -ms-overflow-style: none;
     }
@@ -105,6 +106,10 @@
       color: var(--text-sub);
       font-size: var(--fs-body);
       max-width: 78ch;
+    }
+
+    .print-estimate-header {
+      display: none;
     }
 
     .layout {
@@ -818,12 +823,41 @@
       }
 
       .header p,
+      .header,
       .actions-bar,
       .row-delete-btn,
       .step-btn,
       .item-picker-btn-indicator,
       .modal-overlay {
         display: none !important;
+      }
+
+      .print-estimate-header {
+        display: block;
+        margin-bottom: 8mm;
+      }
+
+      .print-estimate-title {
+        margin: 0 0 4mm;
+        font-size: 1.4rem;
+        letter-spacing: 0.08em;
+        font-weight: 700;
+      }
+
+      .print-estimate-meta {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2mm 8mm;
+        margin-bottom: 4mm;
+      }
+
+      .print-estimate-meta div {
+        font-size: 0.72rem;
+      }
+
+      .print-estimate-note {
+        margin: 0;
+        font-size: 0.68rem;
       }
 
       .layout {
@@ -848,6 +882,41 @@
         padding: 0;
         width: auto;
         min-width: 0;
+      }
+
+      table {
+        border: 0;
+        border-collapse: collapse;
+        border-spacing: 0;
+      }
+
+      th,
+      td {
+        border: 0.15pt solid #dddddd;
+      }
+
+      th,
+      td {
+        padding: 6px 8px;
+      }
+
+      thead {
+        display: table-header-group;
+      }
+
+      th:nth-child(2),
+      td:nth-child(2) {
+        display: none;
+      }
+
+      .item-picker-btn {
+        background: transparent;
+        border: 0;
+        padding: 0;
+      }
+
+      .item-picker-btn-label {
+        padding-left: 0;
       }
     }
 
@@ -1081,6 +1150,15 @@
 </head>
 <body>
   <div class="page">
+    <section class="print-estimate-header" aria-hidden="true">
+      <h1 class="print-estimate-title">御見積書</h1>
+      <div class="print-estimate-meta">
+        <div>発行日: <span id="print-issued-date">-</span></div>
+        <div>見積番号: <span id="print-quote-number">-</span></div>
+        <div>対象区分: <span id="print-segment">-</span></div>
+      </div>
+      <p class="print-estimate-note">本書は入力内容に基づく見積書です。条件変更時は金額が変動する場合があります。</p>
+    </section>
     <header class="header">
       <div class="title-row">
         <h1>Design Fee Live Estimate</h1>
@@ -1199,6 +1277,9 @@
       const addRowBtn = document.getElementById("add-row-btn");
       const addDiscountRowBtn = document.getElementById("add-discount-row-btn");
       const exportPdfBtn = document.getElementById("export-pdf-btn");
+      const printIssuedDateEl = document.getElementById("print-issued-date");
+      const printQuoteNumberEl = document.getElementById("print-quote-number");
+      const printSegmentEl = document.getElementById("print-segment");
       const itemModalOverlay = document.getElementById("item-modal-overlay");
       const itemModalList = document.getElementById("item-modal-list");
       const itemModalTitle = document.getElementById("item-modal-title");
@@ -1239,6 +1320,28 @@
         }
 
         requestAnimationFrame(frame);
+      }
+
+      function buildQuoteNumber(now) {
+        const y = now.getFullYear();
+        const m = String(now.getMonth() + 1).padStart(2, "0");
+        const d = String(now.getDate()).padStart(2, "0");
+        const hh = String(now.getHours()).padStart(2, "0");
+        const mm = String(now.getMinutes()).padStart(2, "0");
+        return `DFLE-${y}${m}${d}-${hh}${mm}`;
+      }
+
+      function updatePrintMeta() {
+        const now = new Date();
+        if (printIssuedDateEl) {
+          printIssuedDateEl.textContent = now.toLocaleDateString("ja-JP");
+        }
+        if (printQuoteNumberEl) {
+          printQuoteNumberEl.textContent = buildQuoteNumber(now);
+        }
+        if (printSegmentEl) {
+          printSegmentEl.textContent = currentSegment === "corporate" ? "法人" : "個人";
+        }
       }
 
       function recalc() {
@@ -2056,9 +2159,12 @@
 
       if (exportPdfBtn) {
         exportPdfBtn.addEventListener("click", () => {
+          updatePrintMeta();
           window.print();
         });
       }
+
+      window.addEventListener("beforeprint", updatePrintMeta);
 
       // モーダルの閉じる処理
       if (itemModalCloseBtn) {
