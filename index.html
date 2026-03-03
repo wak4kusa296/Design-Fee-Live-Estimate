@@ -1,0 +1,2077 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>デザイン料金 見積もりシミュレーター</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #ffffff;
+      --card-bg: #ffffff;
+      --accent: #8d1b3d; /* enji */
+      --border: #111111;
+      --text-main: #111111;
+      --text-sub: #111111;
+      --col-gap: 18px;
+      --row-gap: 24px;
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 24px;
+      --space-6: 32px;
+      --grid-cols: 12;
+      --radius-1: 4px;
+      --radius-2: 8px;
+      --radius-3: 16px;
+      --fs-body: 0.6rem;
+      --fs-display: 1.2rem;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100dvh;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      padding: var(--space-6) var(--space-5);
+      font-family: "LINE Seed JP", "LINE Seed JP_OTF", "Helvetica Neue", Helvetica, Arial, "Noto Sans JP", sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      line-height: 1.45;
+      font-size: var(--fs-body);
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
+
+    *::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--col-gap);
+      row-gap: var(--row-gap);
+    }
+
+    .header {
+      grid-column: 1 / -1;
+      display: grid;
+      row-gap: var(--space-3);
+      padding-bottom: var(--space-4);
+      border-bottom: none;
+    }
+
+    .title-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: var(--space-3);
+    }
+
+    .title-row h1 {
+      font-size: var(--fs-display);
+      margin: 0;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .header p {
+      margin: 0;
+      color: var(--text-sub);
+      font-size: var(--fs-body);
+      max-width: 78ch;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--col-gap);
+      row-gap: var(--row-gap);
+      align-items: flex-start;
+      grid-column: 1 / -1;
+    }
+
+    .fee-card {
+      grid-column: 1 / span 8;
+    }
+
+    .summary-card {
+      grid-column: 9 / -1;
+    }
+
+    @media (max-width: 960px) {
+      .fee-card,
+      .summary-card {
+        grid-column: 1 / -1;
+      }
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius-2);
+      box-shadow: none;
+      padding: var(--space-4) 0;
+      border: none;
+      border-top: none;
+    }
+
+    .card-header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      margin-bottom: var(--space-4);
+      gap: var(--space-3);
+    }
+
+    .card-header h2 {
+      margin: 0;
+      font-size: var(--fs-body);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .card-header span {
+      font-size: var(--fs-body);
+      color: var(--text-sub);
+      letter-spacing: 0.05em;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--fs-body);
+      table-layout: fixed;
+    }
+
+    thead th:nth-child(1) {
+      width: 36%;
+    }
+
+    thead th:nth-child(2) {
+      width: 4%;
+    }
+
+    thead th:nth-child(3) {
+      width: 18%;
+    }
+
+    thead th:nth-child(4) {
+      width: 14%;
+    }
+
+    thead th:nth-child(5) {
+      width: 14%;
+    }
+
+    thead th:nth-child(6) {
+      width: 14%;
+    }
+
+    thead {
+      background: #ffffff;
+      border-top: none;
+      border-bottom: none;
+    }
+
+    th,
+    td {
+      padding: 10px 6px;
+      border-bottom: none;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    th:nth-child(2),
+    td:nth-child(2) {
+      padding-right: 4px;
+      padding-left: 4px;
+      text-align: left;
+    }
+
+    th {
+      font-weight: 500;
+      color: var(--text-sub);
+      font-size: var(--fs-body);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    tbody tr:hover {
+      background: #ffffff;
+    }
+
+    .category-row td {
+      font-weight: 700;
+      font-size: var(--fs-body);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-sub);
+      padding-top: 18px;
+      padding-bottom: 8px;
+      border-bottom: none;
+    }
+
+    .item-name {
+      font-weight: 500;
+      font-size: var(--fs-body);
+      letter-spacing: 0.02em;
+    }
+
+    .item-note {
+      display: block;
+      font-size: var(--fs-body);
+      color: var(--text-sub);
+      margin-top: 4px;
+    }
+
+    .price {
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .qty-input {
+      width: 70px;
+      padding: 6px 6px;
+      border-radius: var(--radius-1);
+      border: 1px solid var(--border);
+      font-size: var(--fs-body);
+      color: var(--text-main);
+      caret-color: var(--text-main);
+      text-align: center;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      background: #ffffff;
+      appearance: textfield;
+      -moz-appearance: textfield;
+    }
+
+    .qty-input:focus {
+      border-color: var(--text-main);
+      box-shadow: none;
+    }
+
+    .adjust-input {
+      width: 70px;
+      padding: 6px 6px;
+      border-radius: var(--radius-1);
+      border: 1px solid var(--border);
+      font-size: var(--fs-body);
+      color: var(--text-main);
+      caret-color: var(--text-main);
+      text-align: center;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      background: #ffffff;
+      appearance: textfield;
+      -moz-appearance: textfield;
+    }
+
+    .adjust-input:focus {
+      border-color: var(--text-main);
+      box-shadow: none;
+    }
+
+    .qty-input::-webkit-outer-spin-button,
+    .qty-input::-webkit-inner-spin-button,
+    .adjust-input::-webkit-outer-spin-button,
+    .adjust-input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .qty-input::placeholder,
+    .adjust-input::placeholder {
+      color: var(--text-main);
+      opacity: 1;
+    }
+
+    .number-stepper {
+      display: grid;
+      grid-template-columns: 20px minmax(0, 1fr) 20px;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .number-stepper .qty-input,
+    .number-stepper .adjust-input {
+      width: 100%;
+      min-width: 0;
+    }
+
+    .step-btn {
+      height: 20px;
+      border-radius: var(--radius-1);
+      border: none;
+      background: transparent;
+      color: var(--text-main);
+      font-size: 0.88rem;
+      font-weight: 600;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0;
+      display: inline-grid;
+      place-items: center;
+    }
+
+    .step-btn:hover {
+      background: #f3f4f6;
+    }
+
+    .field-label {
+      display: none;
+      margin-bottom: 4px;
+      font-size: var(--fs-body);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-main);
+    }
+
+    .subtotal-cell {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .subtotal-cell span {
+      font-weight: 600;
+      font-size: var(--fs-body);
+      line-height: 1.2;
+    }
+
+    .total-card {
+      position: static;
+    }
+
+    .total-amount {
+      font-size: var(--fs-display);
+      font-weight: 700;
+      margin: var(--space-2) 0 var(--space-3);
+      letter-spacing: 0.02em;
+      display: grid;
+      row-gap: 2px;
+    }
+
+    .total-amount span {
+      font-size: var(--fs-body);
+      margin-right: 4px;
+      color: var(--text-sub);
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    #total-number {
+      font-size: var(--fs-display);
+      color: var(--accent);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      display: block;
+      width: 100%;
+      text-align: right;
+      justify-self: end;
+    }
+
+    .total-meta {
+      font-size: var(--fs-body);
+      color: var(--text-sub);
+      margin-bottom: 10px;
+    }
+
+    .summary-line {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      font-size: var(--fs-body);
+      margin-bottom: var(--space-2);
+      color: var(--text-sub);
+    }
+
+    .summary-line strong {
+      color: var(--text-main);
+    }
+
+
+    .items-selected {
+      font-size: var(--fs-body);
+      color: var(--text-sub);
+      margin-top: 4px;
+    }
+
+    .actions-bar {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-items: center;
+      gap: var(--space-2);
+      justify-content: flex-start;
+    }
+
+    .page-actions {
+      grid-column: 1 / -1;
+    }
+
+    .actions-bar > * {
+      flex: 0 0 auto;
+    }
+
+    .add-row-button {
+      font-size: var(--fs-body);
+      min-height: 30px;
+      padding: 0 10px;
+      border-radius: var(--radius-2);
+      border: 1px solid var(--text-main);
+      background: #ffffff;
+      color: var(--text-main);
+      display: inline-grid;
+      grid-auto-flow: column;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .add-row-button span {
+      display: inline-grid;
+      place-items: center;
+      width: 16px;
+      height: 16px;
+      border-radius: var(--radius-1);
+      background: #ffffff;
+      color: var(--text-main);
+      border: none;
+      font-size: var(--fs-body);
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .discount-row-button {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .discount-row-button span {
+      color: var(--accent);
+    }
+
+    .discount-note {
+      display: inline-block;
+      color: var(--text-sub);
+    }
+
+    .row-delete-btn {
+      width: 22px;
+      height: 22px;
+      border-radius: var(--radius-1);
+      border: none;
+      background: #ffffff;
+      color: var(--accent);
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.12s ease, border-color 0.12s ease, transform 0.06s ease;
+    }
+
+    .row-delete-btn:hover {
+      background: #ffffff;
+      transform: none;
+    }
+
+    .row-delete-btn:active {
+      transform: translateY(0);
+      background: #ffffff;
+    }
+
+
+    .segment-switch {
+      display: inline-grid;
+      grid-auto-flow: column;
+      align-items: stretch;
+      gap: 0;
+      padding: 0;
+      min-height: 30px;
+      border-radius: var(--radius-2);
+      background: #ffffff;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      font-size: var(--fs-body);
+    }
+
+    .segment-switch-label {
+      display: inline-grid;
+      grid-auto-flow: column;
+      align-items: center;
+      gap: 4px;
+      min-height: 30px;
+      height: 100%;
+      padding: 0 8px;
+      border-radius: 0;
+      border: none;
+      cursor: pointer;
+      color: var(--text-sub);
+      user-select: none;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .segment-switch-label + .segment-switch-label {
+      border-left: 1px solid var(--border);
+    }
+
+    .segment-switch-label input {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+      pointer-events: none;
+    }
+
+    .segment-switch-label.active {
+      background: var(--text-main);
+      box-shadow: none;
+      color: #ffffff;
+      border-bottom: none;
+    }
+
+    .discount-type-select {
+      width: 100%;
+      padding: 6px 8px;
+      border-radius: var(--radius-1);
+      border: 1px solid var(--border);
+      background: #ffffff;
+      color: var(--text-main);
+      font-size: var(--fs-body);
+      appearance: none;
+      -moz-appearance: none;
+    }
+
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      border-radius: 0;
+      background: #ffffff;
+      padding: 0;
+    }
+
+    .item-picker-btn {
+      width: fit-content;
+      max-width: 100%;
+      padding: 6px 8px;
+      border-radius: var(--radius-1);
+      border: 0;
+      background: #ffffff;
+      font-size: var(--fs-body);
+      font-weight: 700;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      text-align: left;
+      color: var(--text-main);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+    }
+
+    .item-picker-btn span {
+      pointer-events: none;
+    }
+
+    .item-picker-btn-label {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-weight: 400;
+      padding-left: 2ch;
+    }
+
+    .item-picker-btn-placeholder {
+      color: var(--text-sub);
+      font-weight: 400;
+    }
+
+    .discount-item-name {
+      display: inline-block;
+      padding-left: 3ch;
+      font-weight: 400;
+    }
+
+    .discount-name-input {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      padding-right: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      font-size: var(--fs-body);
+      color: inherit;
+      outline: none;
+    }
+
+    .unit-price {
+      font-weight: 700;
+    }
+
+    .item-picker-btn-indicator {
+      display: none;
+    }
+
+    .item-picker-btn:hover {
+      background: #f9fafb;
+      border-color: var(--text-main);
+    }
+
+    .item-picker-btn:focus-visible {
+      outline: none;
+      border-color: var(--text-main);
+      box-shadow: none;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(17, 17, 17, 0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 40;
+      padding: var(--space-4);
+    }
+
+    .modal {
+      max-width: 720px;
+      width: 100%;
+      max-height: 80vh;
+      background: #ffffff;
+      border-radius: var(--radius-3);
+      border: 0;
+      box-shadow: none;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      overflow: hidden;
+      color: var(--text-main);
+    }
+
+    .modal-header {
+      padding: var(--space-4);
+      border-bottom: none;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .modal-title {
+      font-size: var(--fs-body);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .modal-close-btn {
+      border: 0;
+      background: #ffffff;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--text-main);
+      width: 28px;
+      height: 28px;
+      padding: 0;
+    }
+
+    .modal-body {
+      padding: var(--space-4);
+      overflow-y: auto;
+      display: grid;
+      row-gap: var(--space-4);
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .modal-body::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
+
+    .modal-section {
+      margin-bottom: 0;
+      display: grid;
+      row-gap: var(--space-2);
+      color: var(--text-main);
+    }
+
+    .modal-section-title {
+      font-size: var(--fs-body);
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-sub);
+      margin-bottom: 0;
+    }
+
+    .modal-item-button {
+      width: 100%;
+      border-radius: 0;
+      border: none;
+      border-top: none;
+      padding: 8px 0;
+      font-size: var(--fs-body);
+      text-align: left;
+      background: #ffffff;
+      color: var(--text-main);
+      cursor: pointer;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 0;
+      transition: color 0.12s ease, border-color 0.12s ease;
+    }
+
+    .modal-item-main {
+      min-width: 0;
+    }
+
+    .modal-item-name {
+      font-weight: 400;
+      padding-left: 3ch;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: var(--text-main);
+    }
+
+    .modal-item-note {
+      font-size: var(--fs-body);
+      color: var(--text-sub);
+      padding-left: 3ch;
+    }
+
+    .modal-item-price {
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+      font-size: var(--fs-body);
+      color: var(--text-main);
+    }
+
+    .modal-item-button:hover {
+      background: #ffffff;
+      border-color: var(--text-main);
+      color: var(--text-main);
+    }
+
+    .modal-item-button:active {
+      transform: none;
+      background: #ffffff;
+    }
+
+    @media print {
+      html,
+      body {
+        min-height: auto;
+        height: auto;
+        overflow: visible;
+      }
+
+      body {
+        padding: 12mm;
+        color: #000;
+        background: #fff;
+      }
+
+      .page {
+        max-width: none;
+        display: block;
+      }
+
+      .header p,
+      .actions-bar,
+      .row-delete-btn,
+      .step-btn,
+      .item-picker-btn-indicator,
+      .modal-overlay {
+        display: none !important;
+      }
+
+      .layout {
+        display: block;
+      }
+
+      .fee-card,
+      .summary-card {
+        width: 100%;
+      }
+
+      .summary-card {
+        margin-top: 8mm;
+      }
+
+      .qty-input,
+      .adjust-input,
+      .discount-input,
+      .discount-name-input {
+        border: 0;
+        background: transparent;
+        padding: 0;
+        width: auto;
+        min-width: 0;
+      }
+    }
+
+    @media (min-width: 641px) and (max-width: 1024px) {
+      th,
+      td {
+        padding: 8px 4px;
+      }
+
+      thead th:nth-child(1) {
+        width: 34%;
+      }
+
+      thead th:nth-child(2) {
+        width: 4%;
+      }
+
+      thead th:nth-child(3) {
+        width: 16%;
+      }
+
+      thead th:nth-child(4) {
+        width: 18%;
+      }
+
+      thead th:nth-child(5) {
+        width: 18%;
+      }
+
+      thead th:nth-child(6) {
+        width: 10%;
+      }
+
+      .number-stepper {
+        grid-template-columns: 16px minmax(0, 1fr) 16px;
+        gap: 2px;
+        width: 100%;
+        margin-left: 0;
+      }
+
+      .number-stepper .qty-input,
+      .number-stepper .adjust-input {
+        width: 100%;
+        min-width: 0;
+        height: 24px;
+      }
+
+      .step-btn {
+        height: 18px;
+        font-size: var(--fs-body);
+      }
+    }
+
+    @media (max-width: 640px) {
+      body {
+        min-height: auto;
+        padding: var(--space-4) var(--space-3);
+      }
+
+      .page {
+        display: flex;
+        flex-direction: column;
+        min-height: calc(100dvh - (var(--space-4) * 2));
+        gap: var(--space-4);
+      }
+
+      .title-row {
+        display: block;
+      }
+
+      .layout {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-4);
+        flex: 1 1 auto;
+      }
+
+      .fee-card {
+        order: 1;
+        width: 100%;
+        flex: 0 0 auto;
+      }
+
+      .card {
+        padding: var(--space-3) 0;
+      }
+
+      .total-card.summary-card {
+        order: 2;
+        position: static;
+        margin-top: auto;
+        width: 100%;
+        flex: 0 0 auto;
+      }
+
+      .card-header {
+        display: block;
+      }
+
+      .actions-bar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+        gap: var(--space-2);
+      }
+
+      .actions-bar > * {
+        flex: 1 1 calc(50% - var(--space-2));
+      }
+
+      .actions-bar #segment-switch {
+        flex-basis: 100%;
+      }
+
+      table {
+        table-layout: auto;
+      }
+
+      thead {
+        display: none;
+      }
+
+      tbody {
+        display: block;
+      }
+
+      #items-body tr {
+        display: block;
+        border: 1px solid var(--border);
+        border-top: 1px solid var(--border);
+        border-radius: var(--radius-2);
+        padding: var(--space-3);
+        background: #ffffff;
+        color: var(--text-main);
+        margin-bottom: var(--space-5);
+      }
+
+      #items-body tr[data-row-type="discount"] {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      .category-row {
+        display: none;
+      }
+
+      #items-body tr td {
+        border-bottom: none;
+        padding: 0 0 var(--space-2) 0;
+      }
+
+      #items-body tr td:nth-child(1) { display: block; }
+      #items-body tr td:nth-child(2) {
+        display: flex;
+        justify-content: flex-start;
+        padding-bottom: 0;
+      }
+      #items-body tr td:nth-child(3) { display: none; }
+      #items-body tr td:nth-child(4),
+      #items-body tr td:nth-child(5) {
+        display: inline-block;
+        width: calc(50% - 4px);
+        vertical-align: top;
+      }
+      #items-body tr td:nth-child(6) { display: block; }
+      #items-body tr td:nth-child(6) {
+        padding-bottom: 0;
+      }
+
+      #items-body tr .field-label {
+        display: block;
+      }
+
+      #items-body tr .item-name,
+      #items-body tr .item-note,
+      #items-body tr .unit-price,
+      #items-body tr .subtotal-cell span {
+        color: var(--text-main);
+      }
+
+      #items-body tr[data-row-type="discount"] .item-name,
+      #items-body tr[data-row-type="discount"] .discount-name-input,
+      #items-body tr[data-row-type="discount"] .discount-note,
+      #items-body tr[data-row-type="discount"] .subtotal-cell span,
+      #items-body tr[data-row-type="discount"] .field-label {
+        color: var(--accent);
+      }
+
+      #items-body tr[data-row-type="discount"] .discount-type-btn,
+      #items-body tr[data-row-type="discount"] .discount-input {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      #items-body tr[data-row-type="discount"] .step-btn {
+        color: var(--accent);
+      }
+
+      #items-body tr .item-picker-btn {
+        color: var(--text-main);
+        background: #ffffff;
+        border: 0;
+      }
+
+      #items-body tr .item-picker-btn-placeholder,
+      #items-body tr .item-picker-btn-indicator {
+        color: var(--text-sub);
+      }
+
+      .qty-input,
+      .adjust-input {
+        width: 4ch;
+        min-width: 4ch;
+      }
+
+      #items-body tr .number-stepper {
+        width: 100%;
+        max-width: 112px;
+        grid-template-columns: 24px 1fr 24px;
+      }
+
+      .subtotal-cell {
+        text-align: right;
+      }
+
+      .subtotal-cell span {
+        display: inline-block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <div class="title-row">
+        <h1>Design Fee Live Estimate</h1>
+      </div>
+      <p>
+        下の料金表から必要な項目の「点数／部数」などを入力すると、その場で概算見積もりが計算されます。<br />
+        実際のご発注時にはヒアリングのうえ正式なお見積書をお出しします。
+      </p>
+    </header>
+    <div class="actions-bar page-actions">
+      <div class="segment-switch" id="segment-switch">
+        <label class="segment-switch-label active" data-segment-label="personal">
+          <input type="radio" name="segment" value="personal" checked />
+          個人
+        </label>
+        <label class="segment-switch-label" data-segment-label="corporate">
+          <input type="radio" name="segment" value="corporate" />
+          法人
+        </label>
+      </div>
+      <button type="button" class="add-row-button" id="add-row-btn">
+        <span>＋</span>
+        制作物を追加
+      </button>
+      <button type="button" class="add-row-button discount-row-button" id="add-discount-row-btn">
+        <span>－</span>
+        割引を適用
+      </button>
+      <button type="button" class="add-row-button" id="export-pdf-btn">
+        PDF出力
+      </button>
+    </div>
+    <div class="layout">
+      <!-- 左：項目入力 -->
+      <section class="card fee-card">
+        <div class="card-header">
+          <h2>料金表</h2>
+        </div>
+
+        <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>項目</th>
+              <th></th>
+              <th class="price">単価（税込）</th>
+              <th style="width: 80px;">数量</th>
+              <th class="price">ブースト(%)</th>
+              <th class="price">小計</th>
+            </tr>
+          </thead>
+          <tbody id="items-body">
+            <!-- CSV（price_table.csv）からJavaScriptで自動生成されます -->
+          </tbody>
+        </table>
+        </div>
+      </section>
+
+      <!-- 右：合計サマリー -->
+      <aside class="total-card card summary-card">
+        <div class="card-header">
+          <h2>概算見積もり</h2>
+          <span>入力内容に合わせて自動更新されます</span>
+        </div>
+
+        <div class="total-amount" id="total-amount">
+          <span>合計</span> <span id="total-number">¥0</span>
+        </div>
+        <div class="total-meta" id="items-count-text">項目数 0 ／ 小計（税込）</div>
+
+        <div class="summary-line">
+          <span>小計（税込）</span>
+          <strong id="subtotal-text">¥0</strong>
+        </div>
+        <div class="summary-line">
+          <span>うち消費税（10%換算）</span>
+          <span id="tax-text">¥0</span>
+        </div>
+
+        <p style="margin-top: var(--space-3); color: var(--text-sub);">
+          概算見積（正式発注前）
+        </p>
+      </aside>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="item-modal-overlay">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="item-modal-title">
+      <div class="modal-header">
+        <div class="modal-title" id="item-modal-title">商品を選択</div>
+        <button type="button" class="modal-close-btn" id="item-modal-close" aria-label="閉じる">×</button>
+      </div>
+      <div class="modal-body" id="item-modal-list">
+        <!-- JavaScriptでセクションごとの商品リストを描画 -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const tbody = document.getElementById("items-body");
+
+      const totalAmountEl = document.getElementById("total-amount");
+      const totalNumberEl = document.getElementById("total-number");
+      const subtotalTextEl = document.getElementById("subtotal-text");
+      const taxTextEl = document.getElementById("tax-text");
+      const itemsCountTextEl = document.getElementById("items-count-text");
+      const segmentRadios = document.querySelectorAll('input[name="segment"]');
+      const segmentLabels = document.querySelectorAll(".segment-switch-label");
+      const addRowBtn = document.getElementById("add-row-btn");
+      const addDiscountRowBtn = document.getElementById("add-discount-row-btn");
+      const exportPdfBtn = document.getElementById("export-pdf-btn");
+      const itemModalOverlay = document.getElementById("item-modal-overlay");
+      const itemModalList = document.getElementById("item-modal-list");
+      const itemModalTitle = document.getElementById("item-modal-title");
+      const itemModalCloseBtn = document.getElementById("item-modal-close");
+
+      let currentSegment = "personal";
+      let rows = [];
+      let dataRows = [];
+      let currentRowForModal = null;
+      let currentDiscountRowForModal = null;
+
+      let lastTotal = 0;
+      let lastSubtotal = 0;
+      let lastTax = 0;
+      let lastCount = 0;
+
+      function formatYen(value) {
+        return "¥" + value.toLocaleString("ja-JP");
+      }
+
+      function animateValue(el, from, to, formatter, duration) {
+        if (!el) return;
+        if (from === to) {
+          el.textContent = formatter ? formatter(to) : String(to);
+          return;
+        }
+        const start = performance.now();
+        const diff = to - from;
+
+        function frame(now) {
+          const t = Math.min(1, (now - start) / duration);
+          const eased = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t; // easeInOut
+          const current = Math.round(from + diff * eased);
+          el.textContent = formatter ? formatter(current) : String(current);
+          if (t < 1) {
+            requestAnimationFrame(frame);
+          }
+        }
+
+        requestAnimationFrame(frame);
+      }
+
+      function recalc() {
+        let itemTotal = 0;
+        let total = 0;
+        let count = 0;
+        const discountRows = [];
+
+        rows.forEach((row) => {
+          if (row.dataset.rowType === "discount") {
+            discountRows.push(row);
+            return;
+          }
+
+          const unitPrice = Number(row.dataset.price || "0");
+          const qtyInput = row.querySelector(".qty-input");
+          const adjustInput = row.querySelector(".adjust-input");
+          const subtotalCell = row.querySelector(".subtotal-cell span");
+
+          let qty = Number(qtyInput.value || "1");
+          if (!Number.isFinite(qty) || qty < 1) qty = 1;
+
+          let boostPercent = 0;
+          if (adjustInput) {
+            boostPercent = Number(adjustInput.value || "0");
+            if (!Number.isFinite(boostPercent) || boostPercent < 0) boostPercent = 0;
+          }
+
+          const base = unitPrice * qty;
+          const factor = 1 + boostPercent / 100;
+          const sub = Math.round(base * factor);
+
+          if (sub > 0) {
+            count += 1;
+          }
+
+          itemTotal += sub;
+          subtotalCell.textContent = formatYen(sub);
+        });
+
+        total = itemTotal;
+
+        // 割引は制作物小計の後に順次適用
+        discountRows.forEach((row) => {
+          const discountInput = row.querySelector(".discount-input");
+          const subtotalCell = row.querySelector(".subtotal-cell span");
+          const discountType = row.dataset.discountType || "fixed";
+
+          let discountAmount = 0;
+          if (discountType === "percent") {
+            let percent = Number(discountInput?.value || "0");
+            if (!Number.isFinite(percent) || percent < 0) percent = 0;
+            discountAmount = Math.round(total * (percent / 100));
+          } else if (discountType === "friend") {
+            discountAmount = Math.round(total * 0.1);
+          } else {
+            let fixed = Number(discountInput?.value || "0");
+            if (!Number.isFinite(fixed) || fixed < 0) fixed = 0;
+            discountAmount = Math.round(fixed);
+          }
+
+          const sub = -discountAmount;
+          total += sub;
+          if (discountAmount > 0) {
+            count += 1;
+          }
+          subtotalCell.textContent = formatYen(sub);
+        });
+
+        const tax = Math.round(total / 11); // 税込→税額（10%相当）のざっくり計算
+
+        // アニメーション付きで数値を更新
+        animateValue(totalNumberEl, lastTotal, total, formatYen, 450);
+        animateValue(subtotalTextEl, lastSubtotal, total, formatYen, 450);
+        animateValue(taxTextEl, lastTax, tax, formatYen, 450);
+        animateValue(
+          itemsCountTextEl,
+          lastCount,
+          count,
+          (v) => `項目数 ${v} ／ 小計（税込）`,
+          400
+        );
+
+        lastTotal = total;
+        lastSubtotal = total;
+        lastTax = tax;
+        lastCount = count;
+
+      }
+
+      function applySegment(segment) {
+        currentSegment = segment;
+
+        rows.forEach((row) => {
+          if (row.dataset.rowType === "discount") {
+            return;
+          }
+          const personal = Number(row.dataset.personal || "0");
+          const corporate = Number(row.dataset.corporate || "0");
+          const suffix = row.dataset.suffix || "";
+          const unitPriceCell = row.querySelector(".unit-price");
+
+          let unit = 0;
+          if (segment === "personal") {
+            unit = personal;
+          } else {
+            unit = corporate;
+          }
+
+          // 現在選択中の区分の金額を data-price に反映（計算用）
+          row.dataset.price = String(unit || 0);
+
+          // 表示（ASK相当は0扱いにしておく）
+          if (unitPriceCell) {
+            if (unit > 0) {
+              unitPriceCell.textContent = formatYen(unit) + (suffix || "");
+            } else {
+              unitPriceCell.textContent = "ASK";
+            }
+          }
+
+        });
+
+        // ラベルの見た目切り替え
+        segmentLabels.forEach((label) => {
+          const labelSegment = label.getAttribute("data-segment-label");
+          if (labelSegment === segment) {
+            label.classList.add("active");
+          } else {
+            label.classList.remove("active");
+          }
+        });
+
+        recalc();
+      }
+
+      function attachRowEvents() {
+        rows.forEach((row) => {
+          const input = row.querySelector(".qty-input");
+          const adjustInput = row.querySelector(".adjust-input");
+          if (input) {
+            input.addEventListener("input", recalc);
+            input.addEventListener("change", recalc);
+          }
+          if (adjustInput) {
+            adjustInput.addEventListener("input", recalc);
+            adjustInput.addEventListener("change", recalc);
+          }
+        });
+      }
+
+      function parseCsv(text) {
+        const lines = text.trim().split(/\r?\n/);
+        if (lines.length <= 1) return [];
+
+        const headers = lines[0].split(",").map((h) => h.trim());
+
+        return lines.slice(1).map((line) => {
+          const cols = line.split(",");
+          const item = {};
+          headers.forEach((h, i) => {
+            item[h] = (cols[i] || "").trim();
+          });
+          return item;
+        });
+      }
+
+      function buildTable(data) {
+        tbody.innerHTML = "";
+        dataRows = data;
+        rows = [];
+        // 最初は空。ユーザーが「行を追加」を押したときに行を増やす
+        recalc();
+      }
+
+      function initCsv() {
+        fetch("price_table.csv")
+          .then((res) => {
+            if (!res.ok) {
+              throw new Error("CSV load failed");
+            }
+            return res.text();
+          })
+          .then((text) => {
+            const data = parseCsv(text);
+            buildTable(data);
+          })
+          .catch((err) => {
+            console.error(err);
+            tbody.innerHTML =
+              '<tr><td colspan="4">料金表（price_table.csv）の読み込みに失敗しました。</td></tr>';
+          });
+      }
+
+      segmentRadios.forEach((radio) => {
+        radio.addEventListener("change", (e) => {
+          if (e.target.checked) {
+            applySegment(e.target.value);
+          }
+        });
+      });
+
+      function findItemsBySection() {
+        const sections = {};
+        dataRows.forEach((row) => {
+          if (row.kind === "category") {
+            if (!sections[row.section]) {
+              sections[row.section] = [];
+            }
+          } else if (row.kind === "item") {
+            const sec = row.section || "その他";
+            if (!sections[sec]) {
+              sections[sec] = [];
+            }
+            sections[sec].push(row);
+          }
+        });
+        return sections;
+      }
+
+      function openItemModalForRow(row) {
+        currentRowForModal = row;
+        currentDiscountRowForModal = null;
+        if (!itemModalOverlay || !itemModalList) return;
+        if (itemModalTitle) itemModalTitle.textContent = "制作物を選択";
+
+        const sections = findItemsBySection();
+        const seg = currentSegment;
+
+        let html = "";
+        Object.keys(sections).forEach((sectionName) => {
+          const items = sections[sectionName];
+          if (!items || items.length === 0) return;
+          html += `<div class="modal-section">`;
+          html += `<div class="modal-section-title">${sectionName}</div>`;
+          items.forEach((item) => {
+            const personal = Number(item.personal || "0");
+            const corporate = Number(item.corporate || "0");
+            const price = seg === "personal" ? personal : corporate;
+            const priceText = price > 0 ? formatYen(price) + (item.suffix || "") : "ASK";
+            const noteHtml = item.note
+              ? `<div class="modal-item-note">${item.note}</div>`
+              : "";
+            html += `
+              <button
+                type="button"
+                class="modal-item-button"
+                data-name="${item.name || ""}"
+                data-personal="${item.personal || "0"}"
+                data-corporate="${item.corporate || "0"}"
+                data-suffix="${item.suffix || ""}"
+              >
+                <div class="modal-item-main">
+                  <div class="modal-item-name">${item.name || ""}</div>
+                  ${noteHtml}
+                </div>
+                <div class="modal-item-price">${priceText}</div>
+              </button>
+            `;
+          });
+          html += `</div>`;
+        });
+
+        itemModalList.innerHTML = html || '<div class="modal-item-note">選択できる商品がありません。</div>';
+        itemModalOverlay.style.display = "flex";
+
+        const buttons = itemModalList.querySelectorAll(".modal-item-button");
+        buttons.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            if (!currentRowForModal) return;
+            const name = btn.getAttribute("data-name") || "";
+            const personal = btn.getAttribute("data-personal") || "0";
+            const corporate = btn.getAttribute("data-corporate") || "0";
+            const suffix = btn.getAttribute("data-suffix") || "";
+
+            currentRowForModal.dataset.personal = personal;
+            currentRowForModal.dataset.corporate = corporate;
+            if (suffix) {
+              currentRowForModal.dataset.suffix = suffix;
+            } else {
+              delete currentRowForModal.dataset.suffix;
+            }
+
+            const labelSpan = currentRowForModal.querySelector(".item-picker-btn-label");
+            if (labelSpan) {
+              labelSpan.textContent = name || "商品を選択";
+              labelSpan.classList.remove("item-picker-btn-placeholder");
+            }
+
+            applySegment(currentSegment);
+            closeItemModal();
+          });
+        });
+      }
+
+      function openDiscountTypeModal(onSelect) {
+        if (!itemModalOverlay || !itemModalList) return;
+        const options = [
+          { value: "percent", name: "倍率割引 (%)", note: "合計から指定割合を割引" },
+          { value: "fixed", name: "固定割引 (円)", note: "合計から固定額を割引" },
+          { value: "friend", name: "なかま割 (10%OFF)", note: "合計から10%割引を適用" },
+        ];
+
+        itemModalList.innerHTML = `
+          <div class="modal-section">
+            <div class="modal-section-title">DISCOUNT TYPE</div>
+            ${options
+              .map(
+                (opt) => `
+              <button
+                type="button"
+                class="modal-item-button"
+                data-discount-type="${opt.value}"
+                data-discount-name="${opt.name}"
+              >
+                <div class="modal-item-main">
+                  <div class="modal-item-name">${opt.name}</div>
+                  <div class="modal-item-note">${opt.note}</div>
+                </div>
+              </button>
+            `
+              )
+              .join("")}
+          </div>
+        `;
+
+        itemModalOverlay.style.display = "flex";
+
+        const buttons = itemModalList.querySelectorAll(".modal-item-button");
+        buttons.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const type = btn.getAttribute("data-discount-type") || "fixed";
+            const name = btn.getAttribute("data-discount-name") || "固定割引 (円)";
+            if (typeof onSelect === "function") {
+              onSelect(type, name);
+            }
+            closeItemModal();
+          });
+        });
+      }
+
+      function openDiscountTypeModalForRow(row) {
+        currentDiscountRowForModal = row;
+        currentRowForModal = null;
+        if (itemModalTitle) itemModalTitle.textContent = "割引タイプを選択";
+        openDiscountTypeModal((type, name) => {
+          if (!currentDiscountRowForModal) return;
+          currentDiscountRowForModal.dataset.discountType = type;
+          currentDiscountRowForModal.dataset.discountTypeLabel = name;
+
+          const labelSpan = currentDiscountRowForModal.querySelector(
+            ".discount-type-btn .item-picker-btn-label"
+          );
+          if (labelSpan) {
+            labelSpan.textContent = name;
+            labelSpan.classList.remove("item-picker-btn-placeholder");
+          }
+
+          const refresh = currentDiscountRowForModal.__syncDiscountUI;
+          if (typeof refresh === "function") {
+            refresh();
+          } else {
+            recalc();
+          }
+        });
+      }
+
+      function openDiscountTypeModalForCreate() {
+        currentDiscountRowForModal = null;
+        currentRowForModal = null;
+        if (itemModalTitle) itemModalTitle.textContent = "割引タイプを選択";
+        openDiscountTypeModal((type, name) => {
+          createDiscountRow(type, name);
+        });
+      }
+
+      function formatDiscountItemName(type, label) {
+        if (type === "friend") return "なかま割";
+        const base = String(label || "")
+          .replace(/\s*\(.*?\)\s*/g, "")
+          .trim();
+        if (!base) return "割引";
+        if (base.endsWith("割引")) return base;
+        if (base.endsWith("割")) return `${base}引`;
+        return `${base}割引`;
+      }
+
+      function openItemModalForCreate() {
+        currentRowForModal = null;
+        currentDiscountRowForModal = null;
+        if (!itemModalOverlay || !itemModalList) return;
+        if (itemModalTitle) itemModalTitle.textContent = "制作物を選択";
+
+        const sections = findItemsBySection();
+        const seg = currentSegment;
+
+        let html = "";
+        Object.keys(sections).forEach((sectionName) => {
+          const items = sections[sectionName];
+          if (!items || items.length === 0) return;
+          html += `<div class="modal-section">`;
+          html += `<div class="modal-section-title">${sectionName}</div>`;
+          items.forEach((item) => {
+            const personal = Number(item.personal || "0");
+            const corporate = Number(item.corporate || "0");
+            const price = seg === "personal" ? personal : corporate;
+            const priceText = price > 0 ? formatYen(price) + (item.suffix || "") : "ASK";
+            const noteHtml = item.note
+              ? `<div class="modal-item-note">${item.note}</div>`
+              : "";
+            html += `
+              <button
+                type="button"
+                class="modal-item-button"
+                data-name="${item.name || ""}"
+                data-personal="${item.personal || "0"}"
+                data-corporate="${item.corporate || "0"}"
+                data-suffix="${item.suffix || ""}"
+              >
+                <div class="modal-item-main">
+                  <div class="modal-item-name">${item.name || ""}</div>
+                  ${noteHtml}
+                </div>
+                <div class="modal-item-price">${priceText}</div>
+              </button>
+            `;
+          });
+          html += `</div>`;
+        });
+
+        itemModalList.innerHTML = html || '<div class="modal-item-note">選択できる商品がありません。</div>';
+        itemModalOverlay.style.display = "flex";
+
+        const buttons = itemModalList.querySelectorAll(".modal-item-button");
+        buttons.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const tr = createRow();
+            const name = btn.getAttribute("data-name") || "";
+            const personal = btn.getAttribute("data-personal") || "0";
+            const corporate = btn.getAttribute("data-corporate") || "0";
+            const suffix = btn.getAttribute("data-suffix") || "";
+
+            tr.dataset.personal = personal;
+            tr.dataset.corporate = corporate;
+            if (suffix) {
+              tr.dataset.suffix = suffix;
+            } else {
+              delete tr.dataset.suffix;
+            }
+
+            const labelSpan = tr.querySelector(".item-picker-btn-label");
+            if (labelSpan) {
+              labelSpan.textContent = name || "商品を選択";
+              labelSpan.classList.remove("item-picker-btn-placeholder");
+            }
+
+            applySegment(currentSegment);
+            closeItemModal();
+          });
+        });
+      }
+
+      function closeItemModal() {
+        if (itemModalOverlay) {
+          itemModalOverlay.style.display = "none";
+        }
+        currentRowForModal = null;
+        currentDiscountRowForModal = null;
+      }
+
+      function createRow() {
+        const tr = document.createElement("tr");
+
+        const tdName = document.createElement("td");
+        const pickerBtn = document.createElement("button");
+        pickerBtn.type = "button";
+        pickerBtn.className = "item-picker-btn";
+        const labelSpan = document.createElement("span");
+        labelSpan.className = "item-picker-btn-label item-picker-btn-placeholder";
+        labelSpan.textContent = "商品を選択";
+        const indicatorSpan = document.createElement("span");
+        indicatorSpan.className = "item-picker-btn-indicator";
+        indicatorSpan.textContent = "一覧から選択";
+        pickerBtn.appendChild(labelSpan);
+        pickerBtn.appendChild(indicatorSpan);
+        tdName.appendChild(pickerBtn);
+
+        const tdPrice = document.createElement("td");
+        tdPrice.className = "price unit-price";
+        tdPrice.textContent = "-";
+
+        const tdQty = document.createElement("td");
+        const qtyLabel = document.createElement("span");
+        qtyLabel.className = "field-label";
+        qtyLabel.textContent = "数量";
+        const qtyStepper = document.createElement("div");
+        qtyStepper.className = "number-stepper";
+        const qtyMinusBtn = document.createElement("button");
+        qtyMinusBtn.type = "button";
+        qtyMinusBtn.className = "step-btn";
+        qtyMinusBtn.textContent = "-";
+        const input = document.createElement("input");
+        input.type = "number";
+        input.className = "qty-input";
+        input.min = "1";
+        input.step = "1";
+        input.value = "1";
+        input.setAttribute("aria-label", "数量");
+        const qtyPlusBtn = document.createElement("button");
+        qtyPlusBtn.type = "button";
+        qtyPlusBtn.className = "step-btn";
+        qtyPlusBtn.textContent = "+";
+        qtyStepper.appendChild(qtyMinusBtn);
+        qtyStepper.appendChild(input);
+        qtyStepper.appendChild(qtyPlusBtn);
+        tdQty.appendChild(qtyLabel);
+        tdQty.appendChild(qtyStepper);
+
+        const tdAdjust = document.createElement("td");
+        tdAdjust.className = "price";
+        const boostLabel = document.createElement("span");
+        boostLabel.className = "field-label";
+        boostLabel.textContent = "ブースト(%)";
+        const boostStepper = document.createElement("div");
+        boostStepper.className = "number-stepper";
+        const boostMinusBtn = document.createElement("button");
+        boostMinusBtn.type = "button";
+        boostMinusBtn.className = "step-btn";
+        boostMinusBtn.textContent = "-";
+        const adjustInput = document.createElement("input");
+        adjustInput.type = "number";
+        adjustInput.className = "adjust-input";
+        adjustInput.placeholder = "0";
+        adjustInput.step = "1";
+        adjustInput.min = "0";
+        adjustInput.max = "500";
+        adjustInput.setAttribute("aria-label", "ブースト(%)");
+        const boostPlusBtn = document.createElement("button");
+        boostPlusBtn.type = "button";
+        boostPlusBtn.className = "step-btn";
+        boostPlusBtn.textContent = "+";
+        boostStepper.appendChild(boostMinusBtn);
+        boostStepper.appendChild(adjustInput);
+        boostStepper.appendChild(boostPlusBtn);
+        tdAdjust.appendChild(boostLabel);
+        tdAdjust.appendChild(boostStepper);
+
+        const tdSubtotal = document.createElement("td");
+        tdSubtotal.className = "subtotal-cell";
+        const subtotalSpan = document.createElement("span");
+        subtotalSpan.textContent = "¥0";
+        tdSubtotal.appendChild(subtotalSpan);
+
+        const tdDelete = document.createElement("td");
+        tdDelete.className = "price";
+        const deleteBtn = document.createElement("button");
+        deleteBtn.type = "button";
+        deleteBtn.className = "row-delete-btn";
+        deleteBtn.textContent = "×";
+        tdDelete.appendChild(deleteBtn);
+
+        tr.appendChild(tdName);
+        tr.appendChild(tdDelete);
+        tr.appendChild(tdPrice);
+        tr.appendChild(tdQty);
+        tr.appendChild(tdAdjust);
+        tr.appendChild(tdSubtotal);
+
+        tbody.appendChild(tr);
+
+        // 行データの初期値（商品未選択）
+        tr.dataset.personal = "0";
+        tr.dataset.corporate = "0";
+
+        rows = Array.from(tbody.querySelectorAll("tr"));
+
+        // 商品選択モーダルを開く
+        pickerBtn.addEventListener("click", () => {
+          openItemModalForRow(tr);
+        });
+
+        // 入力イベント
+        const qtyInput = tr.querySelector(".qty-input");
+        const boostInput = tr.querySelector(".adjust-input");
+        if (qtyInput) {
+          qtyInput.addEventListener("input", recalc);
+          qtyInput.addEventListener("change", recalc);
+        }
+        if (boostInput) {
+          boostInput.addEventListener("input", recalc);
+          boostInput.addEventListener("change", recalc);
+        }
+
+        function stepInputValue(targetInput, direction) {
+          const step = Number(targetInput.step || "1") || 1;
+          const min = targetInput.min === "" ? -Infinity : Number(targetInput.min);
+          const max = targetInput.max === "" ? Infinity : Number(targetInput.max);
+          let current = Number(targetInput.value || targetInput.placeholder || "0");
+          if (!Number.isFinite(current)) {
+            current = Number.isFinite(min) ? min : 0;
+          }
+          let next = current + direction * step;
+          if (next < min) next = min;
+          if (next > max) next = max;
+          targetInput.value = String(next);
+          targetInput.dispatchEvent(new Event("input", { bubbles: true }));
+        }
+
+        qtyMinusBtn.addEventListener("click", () => stepInputValue(input, -1));
+        qtyPlusBtn.addEventListener("click", () => stepInputValue(input, 1));
+        boostMinusBtn.addEventListener("click", () => stepInputValue(adjustInput, -1));
+        boostPlusBtn.addEventListener("click", () => stepInputValue(adjustInput, 1));
+
+        // 行削除
+        deleteBtn.addEventListener("click", () => {
+          tbody.removeChild(tr);
+          rows = Array.from(tbody.querySelectorAll("tr"));
+          recalc();
+        });
+
+        // 新規行にも現在のセグメントを反映
+        applySegment(currentSegment);
+        return tr;
+      }
+
+      function createDiscountRow(initialType = "percent", initialLabel = "倍率割引 (%)") {
+        const tr = document.createElement("tr");
+        tr.dataset.rowType = "discount";
+        tr.dataset.discountNameCustom = "0";
+
+        const tdName = document.createElement("td");
+        const discountName = document.createElement("input");
+        discountName.type = "text";
+        discountName.className = "item-name discount-item-name discount-name-input";
+        discountName.value = formatDiscountItemName(initialType, initialLabel);
+        discountName.setAttribute("aria-label", "割引名");
+        tdName.appendChild(discountName);
+
+        const tdPrice = document.createElement("td");
+        tdPrice.className = "price";
+        const discountTypeBtn = document.createElement("button");
+        discountTypeBtn.type = "button";
+        discountTypeBtn.className = "item-picker-btn discount-type-btn";
+        const discountTypeLabel = document.createElement("span");
+        discountTypeLabel.className = "item-picker-btn-label";
+        discountTypeLabel.textContent = initialLabel;
+        const discountTypeIndicator = document.createElement("span");
+        discountTypeIndicator.className = "item-picker-btn-indicator";
+        discountTypeIndicator.textContent = "一覧から選択";
+        discountTypeBtn.appendChild(discountTypeLabel);
+        discountTypeBtn.appendChild(discountTypeIndicator);
+        tdPrice.appendChild(discountTypeBtn);
+
+        const tdQty = document.createElement("td");
+        const discountLabel = document.createElement("span");
+        discountLabel.className = "field-label";
+        discountLabel.textContent = "割引額";
+        const discountStepper = document.createElement("div");
+        discountStepper.className = "number-stepper";
+        const minusBtn = document.createElement("button");
+        minusBtn.type = "button";
+        minusBtn.className = "step-btn";
+        minusBtn.textContent = "-";
+        const discountInput = document.createElement("input");
+        discountInput.type = "number";
+        discountInput.className = "qty-input discount-input";
+        discountInput.min = "0";
+        discountInput.step = "1";
+        discountInput.value = "0";
+        discountInput.setAttribute("aria-label", "割引額");
+        const plusBtn = document.createElement("button");
+        plusBtn.type = "button";
+        plusBtn.className = "step-btn";
+        plusBtn.textContent = "+";
+        discountStepper.appendChild(minusBtn);
+        discountStepper.appendChild(discountInput);
+        discountStepper.appendChild(plusBtn);
+        tdQty.appendChild(discountLabel);
+        tdQty.appendChild(discountStepper);
+
+        const tdAdjust = document.createElement("td");
+        tdAdjust.className = "price";
+        const discountNote = document.createElement("span");
+        discountNote.className = "discount-note";
+        discountNote.textContent = "合計から%割引";
+        tdAdjust.appendChild(discountNote);
+
+        const tdSubtotal = document.createElement("td");
+        tdSubtotal.className = "subtotal-cell";
+        const subtotalSpan = document.createElement("span");
+        subtotalSpan.textContent = "¥0";
+        tdSubtotal.appendChild(subtotalSpan);
+
+        const tdDelete = document.createElement("td");
+        tdDelete.className = "price";
+        const deleteBtn = document.createElement("button");
+        deleteBtn.type = "button";
+        deleteBtn.className = "row-delete-btn";
+        deleteBtn.textContent = "×";
+        tdDelete.appendChild(deleteBtn);
+
+        tr.appendChild(tdName);
+        tr.appendChild(tdDelete);
+        tr.appendChild(tdPrice);
+        tr.appendChild(tdQty);
+        tr.appendChild(tdAdjust);
+        tr.appendChild(tdSubtotal);
+
+        tbody.appendChild(tr);
+        tr.dataset.discountType = initialType;
+        tr.dataset.discountTypeLabel = initialLabel;
+        rows = Array.from(tbody.querySelectorAll("tr"));
+
+        function stepInputValue(targetInput, direction) {
+          if (targetInput.disabled) return;
+          const step = Number(targetInput.step || "1") || 1;
+          const min = targetInput.min === "" ? -Infinity : Number(targetInput.min);
+          const max = targetInput.max === "" ? Infinity : Number(targetInput.max);
+          let current = Number(targetInput.value || "0");
+          if (!Number.isFinite(current)) current = 0;
+          let next = current + direction * step;
+          if (next < min) next = min;
+          if (next > max) next = max;
+          targetInput.value = String(next);
+          targetInput.dispatchEvent(new Event("input", { bubbles: true }));
+        }
+
+        function syncDiscountUI() {
+          const type = tr.dataset.discountType || "fixed";
+          const label = tr.dataset.discountTypeLabel || "固定割引 (円)";
+          discountTypeLabel.textContent = type === "fixed" ? "円" : "%";
+          const suggestedName = formatDiscountItemName(type, label);
+          if (tr.dataset.discountNameCustom !== "1") {
+            discountName.value = suggestedName;
+          }
+          if (type === "friend") {
+            discountLabel.textContent = "割引率(%)";
+            discountInput.value = "10";
+            discountInput.min = "10";
+            discountInput.max = "10";
+            discountInput.step = "1";
+            discountInput.disabled = true;
+            minusBtn.disabled = true;
+            plusBtn.disabled = true;
+            discountNote.textContent = "なかま割 10% OFF";
+          } else if (type === "percent") {
+            discountLabel.textContent = "割引率(%)";
+            discountInput.min = "0";
+            discountInput.max = "100";
+            discountInput.step = "1";
+            if (!discountInput.value) discountInput.value = "0";
+            discountInput.disabled = false;
+            minusBtn.disabled = false;
+            plusBtn.disabled = false;
+            discountNote.textContent = "合計から%割引";
+          } else {
+            discountLabel.textContent = "割引額(円)";
+            discountInput.min = "0";
+            discountInput.max = "";
+            discountInput.step = "100";
+            if (!discountInput.value) discountInput.value = "0";
+            discountInput.disabled = false;
+            minusBtn.disabled = false;
+            plusBtn.disabled = false;
+            discountNote.textContent = "合計から固定額割引";
+          }
+          recalc();
+        }
+
+        discountInput.addEventListener("input", recalc);
+        discountInput.addEventListener("change", recalc);
+        discountName.addEventListener("input", () => {
+          const type = tr.dataset.discountType || "fixed";
+          const label = tr.dataset.discountTypeLabel || "固定割引 (円)";
+          const suggestedName = formatDiscountItemName(type, label);
+          const current = (discountName.value || "").trim();
+          tr.dataset.discountNameCustom = current && current !== suggestedName ? "1" : "0";
+        });
+        discountName.addEventListener("blur", () => {
+          const current = (discountName.value || "").trim();
+          if (current) return;
+          const type = tr.dataset.discountType || "fixed";
+          const label = tr.dataset.discountTypeLabel || "固定割引 (円)";
+          discountName.value = formatDiscountItemName(type, label);
+          tr.dataset.discountNameCustom = "0";
+        });
+        discountTypeBtn.addEventListener("click", () => {
+          openDiscountTypeModalForRow(tr);
+        });
+        minusBtn.addEventListener("click", () => stepInputValue(discountInput, -1));
+        plusBtn.addEventListener("click", () => stepInputValue(discountInput, 1));
+        deleteBtn.addEventListener("click", () => {
+          tbody.removeChild(tr);
+          rows = Array.from(tbody.querySelectorAll("tr"));
+          recalc();
+        });
+
+        tr.__syncDiscountUI = syncDiscountUI;
+        syncDiscountUI();
+        recalc();
+      }
+
+      if (addRowBtn) {
+        addRowBtn.addEventListener("click", () => {
+          if (!dataRows || dataRows.length === 0) return;
+          openItemModalForCreate();
+        });
+      }
+
+      if (addDiscountRowBtn) {
+        addDiscountRowBtn.addEventListener("click", () => {
+          openDiscountTypeModalForCreate();
+        });
+      }
+
+      if (exportPdfBtn) {
+        exportPdfBtn.addEventListener("click", () => {
+          window.print();
+        });
+      }
+
+      // モーダルの閉じる処理
+      if (itemModalCloseBtn) {
+        itemModalCloseBtn.addEventListener("click", () => {
+          closeItemModal();
+        });
+      }
+
+      if (itemModalOverlay) {
+        itemModalOverlay.addEventListener("click", (e) => {
+          if (e.target === itemModalOverlay) {
+            closeItemModal();
+          }
+        });
+      }
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          closeItemModal();
+        }
+      });
+
+      // 初期読み込み
+      initCsv();
+    })();
+  </script>
+</body>
+</html>
