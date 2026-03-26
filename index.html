@@ -442,6 +442,51 @@
       grid-column: 1 / -1;
     }
 
+    .party-card {
+      grid-column: 1 / -1;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-2);
+      padding: var(--space-4);
+      background: #ffffff;
+    }
+
+    .party-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-3);
+    }
+
+    .party-field {
+      display: grid;
+      gap: 6px;
+    }
+
+    .party-field label {
+      font-size: var(--fs-body);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .party-textarea {
+      width: 100%;
+      min-height: 92px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-1);
+      padding: 8px 10px;
+      font: inherit;
+      line-height: 1.5;
+      resize: vertical;
+      background: #ffffff;
+      color: var(--text-main);
+    }
+
+    .party-textarea:focus {
+      outline: none;
+      border-color: var(--text-main);
+      box-shadow: none;
+    }
+
     .actions-bar > * {
       flex: 0 0 auto;
     }
@@ -855,6 +900,19 @@
         font-size: 0.72rem;
       }
 
+      .print-party-block {
+        margin-bottom: 4mm;
+      }
+
+      .print-party-row {
+        font-size: 0.72rem;
+        margin-bottom: 1.5mm;
+      }
+
+      .print-party-row span {
+        white-space: pre-line;
+      }
+
       .print-estimate-note {
         margin: 0;
         font-size: 0.68rem;
@@ -1023,6 +1081,10 @@
         gap: var(--space-2);
       }
 
+      .party-grid {
+        grid-template-columns: 1fr;
+      }
+
       .actions-bar > * {
         flex: 1 1 calc(50% - var(--space-2));
       }
@@ -1157,6 +1219,10 @@
         <div>見積番号: <span id="print-quote-number">-</span></div>
         <div>対象区分: <span id="print-segment">-</span></div>
       </div>
+      <div class="print-party-block">
+        <div class="print-party-row">受注元: <span id="print-orderer-info">-</span></div>
+        <div class="print-party-row">発注先: <span id="print-client-info">-</span></div>
+      </div>
       <p class="print-estimate-note">本書は入力内容に基づく見積書です。条件変更時は金額が変動する場合があります。</p>
     </section>
     <header class="header">
@@ -1168,6 +1234,20 @@
         実際のご発注時にはヒアリングのうえ正式なお見積書をお出しします。
       </p>
     </header>
+    <section class="party-card" aria-label="取引先情報">
+      <div class="party-grid">
+        <div class="party-field">
+          <label for="orderer-info">受注元</label>
+          <textarea id="orderer-info" class="party-textarea">五嶋 龍也（Goto Tatsuya）
+tatsuya-goto@wak4kusa296.com
+070-2433-7955</textarea>
+        </div>
+        <div class="party-field">
+          <label for="client-info">発注先</label>
+          <textarea id="client-info" class="party-textarea" placeholder="会社名 / ご担当者名 / メール / 電話番号 など"></textarea>
+        </div>
+      </div>
+    </section>
     <div class="actions-bar page-actions">
       <div class="segment-switch" id="segment-switch">
         <label class="segment-switch-label active" data-segment-label="personal">
@@ -1280,6 +1360,10 @@
       const printIssuedDateEl = document.getElementById("print-issued-date");
       const printQuoteNumberEl = document.getElementById("print-quote-number");
       const printSegmentEl = document.getElementById("print-segment");
+      const ordererInfoEl = document.getElementById("orderer-info");
+      const clientInfoEl = document.getElementById("client-info");
+      const printOrdererInfoEl = document.getElementById("print-orderer-info");
+      const printClientInfoEl = document.getElementById("print-client-info");
       const itemModalOverlay = document.getElementById("item-modal-overlay");
       const itemModalList = document.getElementById("item-modal-list");
       const itemModalTitle = document.getElementById("item-modal-title");
@@ -1331,6 +1415,20 @@
         return `DFLE-${y}${m}${d}-${hh}${mm}`;
       }
 
+      function normalizePartyInfo(value) {
+        const text = String(value || "").trim();
+        return text || "-";
+      }
+
+      function updatePrintPartyInfo() {
+        if (printOrdererInfoEl) {
+          printOrdererInfoEl.textContent = normalizePartyInfo(ordererInfoEl?.value);
+        }
+        if (printClientInfoEl) {
+          printClientInfoEl.textContent = normalizePartyInfo(clientInfoEl?.value);
+        }
+      }
+
       function updatePrintMeta() {
         const now = new Date();
         if (printIssuedDateEl) {
@@ -1342,6 +1440,7 @@
         if (printSegmentEl) {
           printSegmentEl.textContent = currentSegment === "corporate" ? "法人" : "個人";
         }
+        updatePrintPartyInfo();
       }
 
       function recalc() {
@@ -2181,6 +2280,13 @@
         });
       }
 
+      if (ordererInfoEl) {
+        ordererInfoEl.addEventListener("input", updatePrintPartyInfo);
+      }
+      if (clientInfoEl) {
+        clientInfoEl.addEventListener("input", updatePrintPartyInfo);
+      }
+
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {
           closeItemModal();
@@ -2189,6 +2295,7 @@
 
       // 初期読み込み
       initCsv();
+      updatePrintPartyInfo();
     })();
   </script>
 </body>
