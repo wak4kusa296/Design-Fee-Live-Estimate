@@ -869,6 +869,7 @@
 
       .header p,
       .header,
+      .party-card,
       .actions-bar,
       .row-delete-btn,
       .step-btn,
@@ -1220,8 +1221,8 @@
         <div>対象区分: <span id="print-segment">-</span></div>
       </div>
       <div class="print-party-block">
-        <div class="print-party-row">受注元: <span id="print-orderer-info">-</span></div>
-        <div class="print-party-row">発注先: <span id="print-client-info">-</span></div>
+        <div class="print-party-row">受注: <span id="print-orderer-info">-</span></div>
+        <div class="print-party-row">発注(敬称略): <span id="print-client-info">-</span></div>
       </div>
       <p class="print-estimate-note">本書は入力内容に基づく見積書です。条件変更時は金額が変動する場合があります。</p>
     </section>
@@ -1237,13 +1238,13 @@
     <section class="party-card" aria-label="取引先情報">
       <div class="party-grid">
         <div class="party-field">
-          <label for="orderer-info">受注元</label>
+          <label for="orderer-info">受注</label>
           <textarea id="orderer-info" class="party-textarea">五嶋 龍也（Goto Tatsuya）
 tatsuya-goto@wak4kusa296.com
 070-2433-7955</textarea>
         </div>
         <div class="party-field">
-          <label for="client-info">発注先</label>
+          <label for="client-info">発注(敬称略)</label>
           <textarea id="client-info" class="party-textarea" placeholder="会社名 / ご担当者名 / メール / 電話番号 など"></textarea>
         </div>
       </div>
