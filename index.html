@@ -30,8 +30,8 @@
       --radius-1: 4px;
       --radius-2: 8px;
       --radius-3: 16px;
-      --fs-body: 0.6rem;
-      --fs-display: 1.2rem;
+      --fs-body: 10px;
+      --fs-display: 19px;
     }
 
     * {
@@ -112,6 +112,14 @@
       display: none;
     }
 
+    .print-breakdown-page {
+      display: none;
+    }
+
+    .print-notes-page {
+      display: none;
+    }
+
     .layout {
       display: grid;
       grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -175,7 +183,7 @@
     }
 
     thead th:nth-child(1) {
-      width: 36%;
+      width: 34%;
     }
 
     thead th:nth-child(2) {
@@ -183,19 +191,23 @@
     }
 
     thead th:nth-child(3) {
-      width: 18%;
+      width: 16%;
     }
 
     thead th:nth-child(4) {
-      width: 14%;
+      width: 12%;
     }
 
     thead th:nth-child(5) {
-      width: 14%;
+      width: 12%;
     }
 
     thead th:nth-child(6) {
-      width: 14%;
+      width: 10%;
+    }
+
+    thead th:nth-child(7) {
+      width: 12%;
     }
 
     thead {
@@ -335,7 +347,7 @@
       border: none;
       background: transparent;
       color: var(--text-main);
-      font-size: 0.88rem;
+      font-size: 14px;
       font-weight: 600;
       line-height: 1;
       cursor: pointer;
@@ -369,6 +381,22 @@
       font-weight: 600;
       font-size: var(--fs-body);
       line-height: 1.2;
+    }
+
+    .copyright-cell {
+      text-align: center;
+    }
+
+    .copyright-checkbox {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--text-main);
+      cursor: pointer;
+    }
+
+    .copyright-checkbox:disabled {
+      cursor: not-allowed;
+      opacity: 0.35;
     }
 
     .total-card {
@@ -420,6 +448,178 @@
 
     .summary-line strong {
       color: var(--text-main);
+    }
+
+    #copyright-fee-text {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .breakdown-box {
+      margin-top: var(--space-4);
+      border-top: 1px solid var(--border);
+      padding-top: var(--space-3);
+      display: grid;
+      row-gap: var(--space-2);
+    }
+
+    .breakdown-note {
+      margin: 0;
+      color: var(--text-sub);
+      font-size: var(--fs-body);
+    }
+
+    .breakdown-min-note {
+      margin: 0;
+      color: var(--text-sub);
+      font-size: var(--fs-body);
+    }
+
+    .breakdown-item-line {
+      align-items: center;
+    }
+
+    .breakdown-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 0;
+      flex-wrap: wrap;
+    }
+
+    .uno-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .uno-badge-shape {
+      font-size: 10px;
+      line-height: 1;
+    }
+
+    .uno-1 {
+      background: #000000;
+      color: #ffffff;
+      border-color: #000000;
+    }
+
+    .uno-2 {
+      background: #404040;
+      color: #ffffff;
+      border-color: #404040;
+    }
+
+    .uno-3 {
+      background: #808080;
+      color: #ffffff;
+      border-color: #808080;
+    }
+
+    .uno-4 {
+      background: #bfbfbf;
+      color: #111111;
+      border-color: #bfbfbf;
+    }
+
+    .uno-5 {
+      background: #ffffff;
+      color: #111111;
+      border-color: #8a8a8a;
+    }
+
+    .breakdown-ratio {
+      color: var(--text-sub);
+    }
+
+    .breakdown-bar {
+      width: 100%;
+      height: 22px;
+      border-radius: var(--radius-1);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      display: flex;
+      background: #ffffff;
+      margin-top: 2px;
+    }
+
+    .breakdown-segment {
+      height: 100%;
+      width: 0;
+      transition: width 0.25s ease;
+      flex: 0 0 auto;
+      min-width: 0;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+
+    .breakdown-segment-label {
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .breakdown-segment + .breakdown-segment {
+      border-left: 1px solid #8a8a8a;
+    }
+
+    .breakdown-segment.uno-1 {
+      background: #000000;
+    }
+    .breakdown-segment.uno-1 .breakdown-segment-label {
+      color: #ffffff;
+    }
+
+    .breakdown-segment.uno-2 {
+      background: #404040;
+    }
+    .breakdown-segment.uno-2 .breakdown-segment-label {
+      color: #ffffff;
+    }
+
+    .breakdown-segment.uno-3 {
+      background: #808080;
+    }
+    .breakdown-segment.uno-3 .breakdown-segment-label {
+      color: #ffffff;
+    }
+
+    .breakdown-segment.uno-4 {
+      background: #bfbfbf;
+    }
+    .breakdown-segment.uno-4 .breakdown-segment-label {
+      color: #111111;
+    }
+
+    .breakdown-segment.uno-5 {
+      background: #ffffff;
+    }
+    .breakdown-segment.uno-5 .breakdown-segment-label {
+      color: #111111;
+    }
+
+    .breakdown-segment.expense {
+      background: repeating-linear-gradient(135deg, #ffffff 0 6px, #b3b3b3 6px 12px);
+    }
+
+    .breakdown-segment.expense .breakdown-segment-label {
+      color: #111111;
+    }
+
+    .breakdown-chart {
+      margin-top: 2px;
     }
 
 
@@ -544,7 +744,7 @@
       border: none;
       background: #ffffff;
       color: var(--accent);
-      font-size: 0.88rem;
+      font-size: 14px;
       font-weight: 700;
       cursor: pointer;
       display: inline-flex;
@@ -689,6 +889,35 @@
       outline: none;
     }
 
+    .expense-name-input {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      padding: 0;
+      padding-left: 3ch;
+      font-size: var(--fs-body);
+      color: var(--text-main);
+      outline: none;
+    }
+
+    .item-heading-input {
+      width: 100%;
+      margin-top: 4px;
+      border: 0;
+      border-bottom: 1px solid #d1d5db;
+      background: transparent;
+      padding: 2px 0;
+      font-size: var(--fs-body);
+      font-weight: 700;
+      color: var(--text-main);
+      outline: none;
+    }
+
+    .item-heading-input::placeholder {
+      color: var(--text-sub);
+      opacity: 1;
+    }
+
     .unit-price {
       font-weight: 700;
     }
@@ -753,7 +982,7 @@
       border: 0;
       background: #ffffff;
       cursor: pointer;
-      font-size: 1rem;
+      font-size: 16px;
       font-weight: 700;
       line-height: 1;
       color: var(--text-main);
@@ -885,7 +1114,7 @@
 
       .print-estimate-title {
         margin: 0 0 4mm;
-        font-size: 1.4rem;
+        font-size: 22px;
         letter-spacing: 0.08em;
         font-weight: 700;
       }
@@ -898,7 +1127,7 @@
       }
 
       .print-estimate-meta div {
-        font-size: 0.72rem;
+        font-size: 12px;
       }
 
       .print-party-block {
@@ -906,7 +1135,7 @@
       }
 
       .print-party-row {
-        font-size: 0.72rem;
+        font-size: 12px;
         margin-bottom: 1.5mm;
       }
 
@@ -916,7 +1145,94 @@
 
       .print-estimate-note {
         margin: 0;
-        font-size: 0.68rem;
+        font-size: 11px;
+      }
+
+      .print-breakdown-page {
+        display: block;
+        page-break-before: always;
+        break-before: page;
+      }
+
+      .print-breakdown-title {
+        margin: 0 0 4mm;
+        font-size: 18px;
+        letter-spacing: 0.08em;
+        font-weight: 700;
+      }
+
+      .print-breakdown-summary {
+        margin-bottom: 5mm;
+      }
+
+      .print-breakdown-summary .summary-line {
+        margin-bottom: 2mm;
+      }
+
+      .print-breakdown-summary .breakdown-bar {
+        margin-top: 2mm;
+      }
+
+      .print-breakdown-block {
+        margin-bottom: 5mm;
+        page-break-inside: avoid;
+      }
+
+      .print-breakdown-block h3 {
+        margin: 0 0 1.5mm;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .print-breakdown-block p {
+        margin: 0 0 1.5mm;
+        font-size: 11px;
+        line-height: 1.6;
+      }
+
+      .print-notes-page {
+        display: block;
+        page-break-before: always;
+        break-before: page;
+      }
+
+      .print-notes-title {
+        margin: 0 0 4mm;
+        font-size: 18px;
+        letter-spacing: 0.08em;
+        font-weight: 700;
+      }
+
+      .print-notes-block {
+        margin-bottom: 5mm;
+        page-break-inside: avoid;
+      }
+
+      .print-notes-block h3 {
+        margin: 0 0 1.5mm;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .print-notes-block p {
+        margin: 0 0 1.5mm;
+        font-size: 11px;
+        line-height: 1.6;
+      }
+
+      .print-notes-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 2mm;
+      }
+
+      .print-notes-table th,
+      .print-notes-table td {
+        border: 0.15pt solid #dddddd;
+        padding: 5px 6px;
+        font-size: 10px;
+        text-align: left;
+        vertical-align: top;
       }
 
       .layout {
@@ -932,6 +1248,10 @@
         margin-top: 8mm;
       }
 
+      .summary-card .breakdown-box {
+        display: none !important;
+      }
+
       .qty-input,
       .adjust-input,
       .discount-input,
@@ -941,6 +1261,13 @@
         padding: 0;
         width: auto;
         min-width: 0;
+      }
+
+      .item-heading-input {
+        border: 0;
+        background: transparent;
+        padding: 0;
+        margin-top: 2px;
       }
 
       table {
@@ -986,7 +1313,7 @@
       }
 
       thead th:nth-child(1) {
-        width: 34%;
+        width: 30%;
       }
 
       thead th:nth-child(2) {
@@ -998,15 +1325,19 @@
       }
 
       thead th:nth-child(4) {
-        width: 18%;
+        width: 14%;
       }
 
       thead th:nth-child(5) {
-        width: 18%;
+        width: 14%;
       }
 
       thead th:nth-child(6) {
         width: 10%;
+      }
+
+      thead th:nth-child(7) {
+        width: 12%;
       }
 
       .number-stepper {
@@ -1139,13 +1470,14 @@
       }
       #items-body tr td:nth-child(3) { display: none; }
       #items-body tr td:nth-child(4),
-      #items-body tr td:nth-child(5) {
+      #items-body tr td:nth-child(5),
+      #items-body tr td:nth-child(6) {
         display: inline-block;
-        width: calc(50% - 4px);
+        width: calc(33.333% - 6px);
         vertical-align: top;
       }
-      #items-body tr td:nth-child(6) { display: block; }
-      #items-body tr td:nth-child(6) {
+      #items-body tr td:nth-child(7) { display: block; }
+      #items-body tr td:nth-child(7) {
         padding-bottom: 0;
       }
 
@@ -1158,6 +1490,10 @@
       #items-body tr .unit-price,
       #items-body tr .subtotal-cell span {
         color: var(--text-main);
+      }
+
+      #items-body tr .item-heading-input {
+        margin-top: 2px;
       }
 
       #items-body tr[data-row-type="discount"] .item-name,
@@ -1189,6 +1525,10 @@
         color: var(--text-sub);
       }
 
+      #items-body tr .copyright-cell {
+        text-align: left;
+      }
+
       .qty-input,
       .adjust-input {
         width: 4ch;
@@ -1208,6 +1548,30 @@
       .subtotal-cell span {
         display: inline-block;
       }
+    }
+
+    @media print {
+      .breakdown-bar {
+        border-color: #777777;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .breakdown-segment + .breakdown-segment {
+        border-left-color: #8a8a8a;
+      }
+
+      .breakdown-segment {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .breakdown-segment.uno-1 { background: #000000; }
+      .breakdown-segment.uno-2 { background: #404040; }
+      .breakdown-segment.uno-3 { background: #808080; }
+      .breakdown-segment.uno-4 { background: #bfbfbf; }
+      .breakdown-segment.uno-5 { background: #ffffff; }
+      .breakdown-segment.expense { background: repeating-linear-gradient(135deg, #ffffff 0 6px, #b3b3b3 6px 12px); }
     }
   </style>
 </head>
@@ -1264,6 +1628,10 @@ tatsuya-goto@wak4kusa296.com
         <span>＋</span>
         制作物を追加
       </button>
+      <button type="button" class="add-row-button" id="add-expense-row-btn">
+        <span>＋</span>
+        支出経費を追加
+      </button>
       <button type="button" class="add-row-button discount-row-button" id="add-discount-row-btn">
         <span>－</span>
         割引を適用
@@ -1288,6 +1656,7 @@ tatsuya-goto@wak4kusa296.com
               <th class="price">単価（税込）</th>
               <th style="width: 80px;">数量</th>
               <th class="price">ブースト(%)</th>
+              <th class="price">権利譲渡</th>
               <th class="price">小計</th>
             </tr>
           </thead>
@@ -1308,11 +1677,15 @@ tatsuya-goto@wak4kusa296.com
         <div class="total-amount" id="total-amount">
           <span>合計</span> <span id="total-number">¥0</span>
         </div>
-        <div class="total-meta" id="items-count-text">項目数 0 ／ 小計（税込）</div>
+        <div class="total-meta" id="items-count-text">項目数 0 ／ 合計（税込）</div>
 
         <div class="summary-line">
-          <span>小計（税込）</span>
+          <span>合計（税込）</span>
           <strong id="subtotal-text">¥0</strong>
+        </div>
+        <div class="summary-line" id="copyright-fee-line" style="display: none;">
+          <span>権利譲渡未適用による減額</span>
+          <span id="copyright-fee-text">¥0</span>
         </div>
         <div class="summary-line">
           <span>うち消費税（10%換算）</span>
@@ -1322,8 +1695,127 @@ tatsuya-goto@wak4kusa296.com
         <p style="margin-top: var(--space-3); color: var(--text-sub);">
           概算見積（正式発注前）
         </p>
+
+        <section class="breakdown-box" aria-label="基準内訳の自動計算">
+          <p class="breakdown-note">見積合計（税込）に連動して、税別内訳を自動配分します。</p>
+
+          <div class="summary-line breakdown-item-line">
+            <span class="breakdown-label"><span class="uno-badge uno-1"><span>1</span><span class="uno-badge-shape">●</span></span>戦略策定費 <span id="breakdown-ratio-1" class="breakdown-ratio">0.0%</span></span>
+            <strong id="breakdown-item-1">¥0</strong>
+          </div>
+          <div class="summary-line breakdown-item-line">
+            <span class="breakdown-label"><span class="uno-badge uno-2"><span>2</span><span class="uno-badge-shape">▲</span></span>デザイン開発費 <span id="breakdown-ratio-2" class="breakdown-ratio">0.0%</span></span>
+            <strong id="breakdown-item-2">¥0</strong>
+          </div>
+          <div class="summary-line breakdown-item-line">
+            <span class="breakdown-label"><span class="uno-badge uno-3"><span>3</span><span class="uno-badge-shape">■</span></span>権利・著作権費 <span id="breakdown-ratio-3" class="breakdown-ratio">0.0%</span></span>
+            <strong id="breakdown-item-3">¥0</strong>
+          </div>
+          <div class="summary-line breakdown-item-line">
+            <span class="breakdown-label"><span class="uno-badge uno-4"><span>4</span><span class="uno-badge-shape">◆</span></span>運用サポート費 <span id="breakdown-ratio-4" class="breakdown-ratio">0.0%</span></span>
+            <strong id="breakdown-item-4">¥0</strong>
+          </div>
+          <div class="summary-line breakdown-item-line">
+            <span class="breakdown-label"><span class="uno-badge uno-5"><span>5</span><span class="uno-badge-shape">★</span></span>統括・管理費 <span id="breakdown-ratio-5" class="breakdown-ratio">0.0%</span></span>
+            <strong id="breakdown-item-5">¥0</strong>
+          </div>
+          <div class="summary-line breakdown-item-line">
+            <span class="breakdown-label">支出経費 <span id="breakdown-ratio-expense" class="breakdown-ratio">0.0%</span></span>
+            <strong id="breakdown-expense-item">¥0</strong>
+          </div>
+          <div class="breakdown-chart">
+            <div class="breakdown-bar" id="breakdown-bar">
+              <div id="breakdown-segment-1" class="breakdown-segment uno-1"><span class="breakdown-segment-label">1●</span></div>
+              <div id="breakdown-segment-2" class="breakdown-segment uno-2"><span class="breakdown-segment-label">2▲</span></div>
+              <div id="breakdown-segment-3" class="breakdown-segment uno-3"><span class="breakdown-segment-label">3■</span></div>
+              <div id="breakdown-segment-4" class="breakdown-segment uno-4"><span class="breakdown-segment-label">4◆</span></div>
+              <div id="breakdown-segment-5" class="breakdown-segment uno-5"><span class="breakdown-segment-label">5★</span></div>
+              <div id="breakdown-segment-expense" class="breakdown-segment expense"><span class="breakdown-segment-label">経費</span></div>
+            </div>
+          </div>
+          <div class="summary-line"><span>税別合計（按分対象）</span><strong id="breakdown-total-ex">¥0</strong></div>
+          <div class="summary-line"><span>うち消費税（10%換算）</span><span id="breakdown-tax">¥0</span></div>
+          <div class="summary-line"><span>見積合計（税込・自動連動）</span><strong id="breakdown-total-inc">¥0</strong></div>
+        </section>
       </aside>
     </div>
+
+    <section class="print-breakdown-page" aria-hidden="true">
+      <h2 class="print-breakdown-title">内訳明細（税別）</h2>
+      <div class="print-breakdown-summary">
+        <div class="summary-line"><span>1. ブランドアイデンティティ構築・戦略策定</span><strong id="print-breakdown-item-1">¥0</strong></div>
+        <div class="summary-line"><span>2. ロゴデザイン開発および品質検証</span><strong id="print-breakdown-item-2">¥0</strong></div>
+        <div class="summary-line"><span>3. 商用利用権利および著作権譲渡</span><strong id="print-breakdown-item-3">¥0</strong></div>
+        <div class="summary-line"><span>4. 導入後1ヶ月の運用サポート・データ調整</span><strong id="print-breakdown-item-4">¥0</strong></div>
+        <div class="summary-line"><span>5. プロジェクト統括および長期アセット管理</span><strong id="print-breakdown-item-5">¥0</strong></div>
+        <div class="summary-line"><span>支出経費（税別）</span><strong id="print-breakdown-expense-item">¥0</strong></div>
+        <div class="summary-line"><span>税別合計</span><strong id="print-breakdown-total-ex">¥0</strong></div>
+        <div class="summary-line"><span>消費税（10%換算）</span><span id="print-breakdown-tax">¥0</span></div>
+        <div class="summary-line"><span>税込合計</span><strong id="print-breakdown-total-inc">¥0</strong></div>
+        <div class="breakdown-bar" id="print-breakdown-bar">
+          <div class="breakdown-segment uno-1" id="print-breakdown-segment-1"><span class="breakdown-segment-label" id="print-breakdown-label-1">1●</span></div>
+          <div class="breakdown-segment uno-2" id="print-breakdown-segment-2"><span class="breakdown-segment-label" id="print-breakdown-label-2">2▲</span></div>
+          <div class="breakdown-segment uno-3" id="print-breakdown-segment-3"><span class="breakdown-segment-label" id="print-breakdown-label-3">3■</span></div>
+          <div class="breakdown-segment uno-4" id="print-breakdown-segment-4"><span class="breakdown-segment-label" id="print-breakdown-label-4">4◆</span></div>
+          <div class="breakdown-segment uno-5" id="print-breakdown-segment-5"><span class="breakdown-segment-label" id="print-breakdown-label-5">5★</span></div>
+          <div class="breakdown-segment expense" id="print-breakdown-segment-expense"><span class="breakdown-segment-label" id="print-breakdown-label-expense">経費</span></div>
+        </div>
+      </div>
+
+      <article class="print-breakdown-block">
+        <h3>1. ブランドアイデンティティ構築・戦略策定</h3>
+        <p>「何を作るか」の前に、あなたのビジネスが大切にしている「想い」を深く伺います。競合調査や強みの整理を行い、数年先も使い続けられるブランドの根っこ（設計図）を共に固めます。</p>
+      </article>
+
+      <article class="print-breakdown-block">
+        <h3>2. ロゴデザイン開発および品質検証</h3>
+        <p>ロゴは、名刺から看板まであらゆる場面で機能しなければなりません。数ミリ単位の調整や視認性チェックを繰り返し、どんな媒体でも美しく輝く「プロの精度」を担保します。</p>
+      </article>
+
+      <article class="print-breakdown-block">
+        <h3>3. 商用利用権利および著作権譲渡</h3>
+        <p>商用利用の権利関係を明確にし、将来のトラブルを防ぎます。ご要望に応じて「利用許諾」または「権利譲渡」を適切に選択いただけるよう整え、安心して運用できる基盤を作ります。</p>
+      </article>
+
+      <article class="print-breakdown-block">
+        <h3>4. 導入後1ヶ月の運用サポート・データ調整</h3>
+        <p>納品して終わりではありません。実際の運用で生じる「SNSでうまく収まらない」「色が沈んで見える」といった微調整を1ヶ月間サポートし、デザインが現場に馴染むまで伴走します。</p>
+      </article>
+
+      <article class="print-breakdown-block">
+        <h3>5. プロジェクト統括および長期アセット管理</h3>
+        <p>ブランドがバラバラにならないよう、仕様書（ガイドライン）の作成やデータのバックアップを行います。デザインを一発勝負の消耗品にせず、長く愛される「資産」として大切に守ります。</p>
+      </article>
+    </section>
+
+    <section class="print-notes-page" aria-hidden="true">
+      <h2 class="print-notes-title">その他注意事項とお願い</h2>
+
+      <article class="print-notes-block">
+        <h3>1. 修正とステップごとの合意</h3>
+        <p>品質を保つため、計6回（案提出3回、確認2回、清書1回）の修正を基本料金内で承ります。7回目以降や、決定後の大幅な「手戻り」には追加料金が発生します。これは迷走を防ぎ、最高の着地点へ導くための「安全装置」です。</p>
+      </article>
+
+      <article class="print-notes-block">
+        <h3>2. 著作権と二次利用</h3>
+        <p>著作権は原則制作者に宿りますが、ご希望の範囲で自由に使えるよう整理いたします。範囲外の二次利用には別途費用を頂戴しますが、これはブランドの純度を守るための大切なルールです。</p>
+      </article>
+
+      <article class="print-notes-block">
+        <h3>3. スケジュールと鮮度の維持</h3>
+        <p>最高のパフォーマンスを出すため、お返事は期限内にお願いしております。遅延時は1日5%の加算を設けていますが、これは罰金ではなく、貴社のための制作時間を守り抜くための「お約束」です。</p>
+      </article>
+
+      <article class="print-notes-block">
+        <h3>4. 経費の透明化</h3>
+        <p>撮影費、特殊印刷、Web維持費などの実費（支出経費）は別途計上いたします。技術料と実費を分けることで、常に適正で透明な価格提示を心がけています。</p>
+      </article>
+
+      <article class="print-notes-block">
+        <h3>5. お支払いとキャンセル</h3>
+        <p>制作着手後の返金は致しかねます（キャンセル料: 案提出前50%、提出後100%）。目に見えない「思考の時間」への稼働代として、ご理解をいただけますと幸いです。</p>
+      </article>
+    </section>
   </div>
 
   <div class="modal-overlay" id="item-modal-overlay">
@@ -1351,11 +1843,14 @@ tatsuya-goto@wak4kusa296.com
       const totalAmountEl = document.getElementById("total-amount");
       const totalNumberEl = document.getElementById("total-number");
       const subtotalTextEl = document.getElementById("subtotal-text");
+      const copyrightFeeLineEl = document.getElementById("copyright-fee-line");
+      const copyrightFeeTextEl = document.getElementById("copyright-fee-text");
       const taxTextEl = document.getElementById("tax-text");
       const itemsCountTextEl = document.getElementById("items-count-text");
       const segmentRadios = document.querySelectorAll('input[name="segment"]');
       const segmentLabels = document.querySelectorAll(".segment-switch-label");
       const addRowBtn = document.getElementById("add-row-btn");
+      const addExpenseRowBtn = document.getElementById("add-expense-row-btn");
       const addDiscountRowBtn = document.getElementById("add-discount-row-btn");
       const exportPdfBtn = document.getElementById("export-pdf-btn");
       const printIssuedDateEl = document.getElementById("print-issued-date");
@@ -1365,6 +1860,48 @@ tatsuya-goto@wak4kusa296.com
       const clientInfoEl = document.getElementById("client-info");
       const printOrdererInfoEl = document.getElementById("print-orderer-info");
       const printClientInfoEl = document.getElementById("print-client-info");
+      const printBreakdownItem1El = document.getElementById("print-breakdown-item-1");
+      const printBreakdownItem2El = document.getElementById("print-breakdown-item-2");
+      const printBreakdownItem3El = document.getElementById("print-breakdown-item-3");
+      const printBreakdownItem4El = document.getElementById("print-breakdown-item-4");
+      const printBreakdownItem5El = document.getElementById("print-breakdown-item-5");
+      const printBreakdownExpenseItemEl = document.getElementById("print-breakdown-expense-item");
+      const printBreakdownTotalExEl = document.getElementById("print-breakdown-total-ex");
+      const printBreakdownTaxEl = document.getElementById("print-breakdown-tax");
+      const printBreakdownTotalIncEl = document.getElementById("print-breakdown-total-inc");
+      const printBreakdownSegment1El = document.getElementById("print-breakdown-segment-1");
+      const printBreakdownSegment2El = document.getElementById("print-breakdown-segment-2");
+      const printBreakdownSegment3El = document.getElementById("print-breakdown-segment-3");
+      const printBreakdownSegment4El = document.getElementById("print-breakdown-segment-4");
+      const printBreakdownSegment5El = document.getElementById("print-breakdown-segment-5");
+      const printBreakdownSegmentExpenseEl = document.getElementById("print-breakdown-segment-expense");
+      const printBreakdownLabel1El = document.getElementById("print-breakdown-label-1");
+      const printBreakdownLabel2El = document.getElementById("print-breakdown-label-2");
+      const printBreakdownLabel3El = document.getElementById("print-breakdown-label-3");
+      const printBreakdownLabel4El = document.getElementById("print-breakdown-label-4");
+      const printBreakdownLabel5El = document.getElementById("print-breakdown-label-5");
+      const printBreakdownLabelExpenseEl = document.getElementById("print-breakdown-label-expense");
+      const breakdownItem1El = document.getElementById("breakdown-item-1");
+      const breakdownItem2El = document.getElementById("breakdown-item-2");
+      const breakdownItem3El = document.getElementById("breakdown-item-3");
+      const breakdownItem4El = document.getElementById("breakdown-item-4");
+      const breakdownItem5El = document.getElementById("breakdown-item-5");
+      const breakdownExpenseItemEl = document.getElementById("breakdown-expense-item");
+      const breakdownTotalExEl = document.getElementById("breakdown-total-ex");
+      const breakdownTaxEl = document.getElementById("breakdown-tax");
+      const breakdownTotalIncEl = document.getElementById("breakdown-total-inc");
+      const breakdownRatio1El = document.getElementById("breakdown-ratio-1");
+      const breakdownRatio2El = document.getElementById("breakdown-ratio-2");
+      const breakdownRatio3El = document.getElementById("breakdown-ratio-3");
+      const breakdownRatio4El = document.getElementById("breakdown-ratio-4");
+      const breakdownRatio5El = document.getElementById("breakdown-ratio-5");
+      const breakdownRatioExpenseEl = document.getElementById("breakdown-ratio-expense");
+      const breakdownSegment1El = document.getElementById("breakdown-segment-1");
+      const breakdownSegment2El = document.getElementById("breakdown-segment-2");
+      const breakdownSegment3El = document.getElementById("breakdown-segment-3");
+      const breakdownSegment4El = document.getElementById("breakdown-segment-4");
+      const breakdownSegment5El = document.getElementById("breakdown-segment-5");
+      const breakdownSegmentExpenseEl = document.getElementById("breakdown-segment-expense");
       const itemModalOverlay = document.getElementById("item-modal-overlay");
       const itemModalList = document.getElementById("item-modal-list");
       const itemModalTitle = document.getElementById("item-modal-title");
@@ -1378,11 +1915,54 @@ tatsuya-goto@wak4kusa296.com
 
       let lastTotal = 0;
       let lastSubtotal = 0;
+      let lastCopyrightFee = 0;
+      let lastRightsReduction = 0;
+      let lastExpenseTotal = 0;
       let lastTax = 0;
       let lastCount = 0;
+      let breakdownRecalcRaf = 0;
+      const baselineNoRightsRatios = [45, 30, 15, (45000 / 700000) * 100, (25000 / 700000) * 100];
+      const rightsTransferPremiumRate = 0.3; // 「譲渡なし」合計に対する譲渡プレミアム
+      const defaultBreakdownRatios = (() => {
+        const noRightsTotal = baselineNoRightsRatios.reduce((sum, value) => sum + value, 0) || 100;
+        const amounts = baselineNoRightsRatios.slice();
+        // 譲渡プレミアムは項目3（権利・著作権費）に集約
+        amounts[2] += noRightsTotal * rightsTransferPremiumRate;
+        const withRightsTotal = noRightsTotal * (1 + rightsTransferPremiumRate);
+        const ratios = amounts.map((value) => (value / withRightsTotal) * 100);
+        ratios[4] = 100 - (ratios[0] + ratios[1] + ratios[2] + ratios[3]);
+        return ratios;
+      })();
+      let breakdownRatios = defaultBreakdownRatios.slice();
+      let lastBreakdownSnapshot = {
+        items: [0, 0, 0, 0, 0],
+        expense: 0,
+        ratios: defaultBreakdownRatios.slice(),
+        expenseRatio: 0,
+        totalExTax: 0,
+        tax: 0,
+        totalIncTax: 0,
+      };
+      let lastBreakdownDisplay = {
+        items: [0, 0, 0, 0, 0],
+        expense: 0,
+        totalExTax: 0,
+        tax: 0,
+        totalIncTax: 0,
+        ratiosTenths: [0, 0, 0, 0, 0],
+        expenseRatioTenths: 0,
+      };
 
       function formatYen(value) {
         return "¥" + value.toLocaleString("ja-JP");
+      }
+
+      function scheduleBreakdownRecalc() {
+        if (breakdownRecalcRaf) return;
+        breakdownRecalcRaf = requestAnimationFrame(() => {
+          breakdownRecalcRaf = 0;
+          updateBreakdownByTotal(lastTotal || 0);
+        });
       }
 
       function animateValue(el, from, to, formatter, duration) {
@@ -1430,6 +2010,39 @@ tatsuya-goto@wak4kusa296.com
         }
       }
 
+      function updatePrintBreakdownPage() {
+        const snap = lastBreakdownSnapshot;
+        if (!snap) return;
+        const items = snap.items || [0, 0, 0, 0, 0];
+        const ratios = snap.ratios || [0, 0, 0, 0, 0];
+        const expense = Number(snap.expense || 0);
+        const expenseRatio = Number(snap.expenseRatio || 0);
+
+        if (printBreakdownItem1El) printBreakdownItem1El.textContent = formatYen(items[0] || 0);
+        if (printBreakdownItem2El) printBreakdownItem2El.textContent = formatYen(items[1] || 0);
+        if (printBreakdownItem3El) printBreakdownItem3El.textContent = formatYen(items[2] || 0);
+        if (printBreakdownItem4El) printBreakdownItem4El.textContent = formatYen(items[3] || 0);
+        if (printBreakdownItem5El) printBreakdownItem5El.textContent = formatYen(items[4] || 0);
+        if (printBreakdownExpenseItemEl) printBreakdownExpenseItemEl.textContent = formatYen(expense);
+        if (printBreakdownTotalExEl) printBreakdownTotalExEl.textContent = formatYen(snap.totalExTax || 0);
+        if (printBreakdownTaxEl) printBreakdownTaxEl.textContent = formatYen(snap.tax || 0);
+        if (printBreakdownTotalIncEl) printBreakdownTotalIncEl.textContent = formatYen(snap.totalIncTax || 0);
+
+        if (printBreakdownSegment1El) printBreakdownSegment1El.style.width = `${ratios[0] || 0}%`;
+        if (printBreakdownSegment2El) printBreakdownSegment2El.style.width = `${ratios[1] || 0}%`;
+        if (printBreakdownSegment3El) printBreakdownSegment3El.style.width = `${ratios[2] || 0}%`;
+        if (printBreakdownSegment4El) printBreakdownSegment4El.style.width = `${ratios[3] || 0}%`;
+        if (printBreakdownSegment5El) printBreakdownSegment5El.style.width = `${ratios[4] || 0}%`;
+        if (printBreakdownSegmentExpenseEl) printBreakdownSegmentExpenseEl.style.width = `${expenseRatio}%`;
+
+        if (printBreakdownLabel1El) printBreakdownLabel1El.textContent = `1● ${Number(ratios[0] || 0).toFixed(1)}%`;
+        if (printBreakdownLabel2El) printBreakdownLabel2El.textContent = `2▲ ${Number(ratios[1] || 0).toFixed(1)}%`;
+        if (printBreakdownLabel3El) printBreakdownLabel3El.textContent = `3■ ${Number(ratios[2] || 0).toFixed(1)}%`;
+        if (printBreakdownLabel4El) printBreakdownLabel4El.textContent = `4◆ ${Number(ratios[3] || 0).toFixed(1)}%`;
+        if (printBreakdownLabel5El) printBreakdownLabel5El.textContent = `5★ ${Number(ratios[4] || 0).toFixed(1)}%`;
+        if (printBreakdownLabelExpenseEl) printBreakdownLabelExpenseEl.textContent = `経費 ${expenseRatio.toFixed(1)}%`;
+      }
+
       function updatePrintMeta() {
         const now = new Date();
         if (printIssuedDateEl) {
@@ -1442,12 +2055,180 @@ tatsuya-goto@wak4kusa296.com
           printSegmentEl.textContent = currentSegment === "corporate" ? "法人" : "個人";
         }
         updatePrintPartyInfo();
+        updatePrintBreakdownPage();
+      }
+
+      function convertInclTaxToExTax(amount) {
+        const total = Math.max(0, Math.round(Number(amount) || 0));
+        const tax = Math.round(total / 11);
+        return total - tax;
+      }
+
+      function syncCopyrightAvailability(row) {
+        if (!row || row.dataset.rowType === "discount") return;
+        const checkbox = row.querySelector(".copyright-checkbox");
+        if (!checkbox) return;
+        const isIllustration = row.dataset.section === "イラスト";
+        checkbox.disabled = isIllustration;
+        checkbox.title = isIllustration
+          ? "イラスト項目は権利譲渡対象にできません"
+          : "ONで基準価格、OFFで70%価格";
+        if (isIllustration) {
+          checkbox.checked = false;
+          row.dataset.rightsWasForcedOff = "1";
+        } else if (row.dataset.rightsWasForcedOff === "1") {
+          checkbox.checked = true;
+          row.dataset.rightsWasForcedOff = "0";
+        }
+      }
+
+      function updateBreakdownByTotal(totalInclTax) {
+        const total = Math.max(0, Math.round(Number(totalInclTax) || 0));
+        const tax = Math.round(total / 11);
+        const totalExTax = Math.max(0, total - tax);
+        const rightsReductionInclTax = Math.max(0, Math.round(lastRightsReduction || 0));
+        const expenseInclTax = Math.max(0, Math.round(lastExpenseTotal || 0));
+        const expenseExTax = convertInclTaxToExTax(expenseInclTax);
+
+        const designCurrentInclTax = Math.max(0, total - expenseInclTax);
+        const baselineDesignInclTax = Math.max(0, designCurrentInclTax + rightsReductionInclTax);
+        const baselineDesignExTax = convertInclTaxToExTax(baselineDesignInclTax);
+        const rightsReductionExTax = convertInclTaxToExTax(rightsReductionInclTax);
+        const designTargetExTax = Math.max(0, totalExTax - expenseExTax);
+
+        const amounts = [0, 0, 0, 0, 0];
+        if (baselineDesignExTax > 0) {
+          amounts[0] = Math.round(baselineDesignExTax * (defaultBreakdownRatios[0] / 100));
+          amounts[1] = Math.round(baselineDesignExTax * (defaultBreakdownRatios[1] / 100));
+          amounts[2] = Math.round(baselineDesignExTax * (defaultBreakdownRatios[2] / 100));
+          amounts[3] = Math.round(baselineDesignExTax * (defaultBreakdownRatios[3] / 100));
+          amounts[4] = Math.max(0, baselineDesignExTax - (amounts[0] + amounts[1] + amounts[2] + amounts[3]));
+
+          let remainingReduction = rightsReductionExTax;
+
+          // まずは権利・著作権費(項目3)から減額する
+          const takeFrom3 = Math.min(amounts[2], remainingReduction);
+          amounts[2] -= takeFrom3;
+          remainingReduction -= takeFrom3;
+
+          // 項目3で吸収しきれない分は他項目へ同比率で配分
+          if (remainingReduction > 0) {
+            const otherIndexes = [0, 1, 3, 4];
+            const othersTotal = otherIndexes.reduce((sum, idx) => sum + amounts[idx], 0);
+            if (othersTotal > 0) {
+              otherIndexes.forEach((idx, order) => {
+                if (remainingReduction <= 0) return;
+                const weight = amounts[idx] / othersTotal;
+                const planned = order === otherIndexes.length - 1
+                  ? remainingReduction
+                  : Math.min(remainingReduction, Math.round(rightsReductionExTax * weight));
+                const reducible = Math.min(amounts[idx], planned);
+                amounts[idx] -= reducible;
+                remainingReduction -= reducible;
+              });
+            }
+          }
+        }
+
+        // 目標デザイン税別へスケール（経費のみケースではゼロに揃う）
+        const currentDesignExTax = amounts.reduce((sum, value) => sum + value, 0);
+        if (designTargetExTax <= 0 || currentDesignExTax <= 0) {
+          amounts[0] = 0;
+          amounts[1] = 0;
+          amounts[2] = 0;
+          amounts[3] = 0;
+          amounts[4] = 0;
+        } else if (currentDesignExTax !== designTargetExTax) {
+          const scale = designTargetExTax / currentDesignExTax;
+          amounts[0] = Math.round(amounts[0] * scale);
+          amounts[1] = Math.round(amounts[1] * scale);
+          amounts[2] = Math.round(amounts[2] * scale);
+          amounts[3] = Math.round(amounts[3] * scale);
+          amounts[4] = Math.max(0, designTargetExTax - (amounts[0] + amounts[1] + amounts[2] + amounts[3]));
+        }
+
+        const finalExTax = amounts.reduce((sum, value) => sum + value, 0);
+        const grandExTax = Math.max(0, finalExTax + expenseExTax);
+        const ratio1 = grandExTax > 0 ? (amounts[0] / grandExTax) * 100 : 0;
+        const ratio2 = grandExTax > 0 ? (amounts[1] / grandExTax) * 100 : 0;
+        const ratio3 = grandExTax > 0 ? (amounts[2] / grandExTax) * 100 : 0;
+        const ratio4 = grandExTax > 0 ? (amounts[3] / grandExTax) * 100 : 0;
+        const ratio5 = grandExTax > 0 ? (amounts[4] / grandExTax) * 100 : 0;
+        const expenseRatio = grandExTax > 0 ? (expenseExTax / grandExTax) * 100 : 0;
+
+        breakdownRatios = [ratio1, ratio2, ratio3, ratio4, ratio5, expenseRatio];
+        const item1 = amounts[0];
+        const item2 = amounts[1];
+        const item3 = amounts[2];
+        const item4 = amounts[3];
+        const item5 = amounts[4];
+        lastBreakdownSnapshot = {
+          items: [item1, item2, item3, item4, item5],
+          expense: expenseExTax,
+          ratios: [ratio1, ratio2, ratio3, ratio4, ratio5],
+          expenseRatio,
+          totalExTax: grandExTax,
+          tax,
+          totalIncTax: total,
+        };
+
+        const ratioTenths = [
+          Math.round(ratio1 * 10),
+          Math.round(ratio2 * 10),
+          Math.round(ratio3 * 10),
+          Math.round(ratio4 * 10),
+          Math.round(ratio5 * 10),
+        ];
+        const expenseRatioTenths = Math.round(expenseRatio * 10);
+        const formatTenthsPercent = (value) => `${(value / 10).toFixed(1)}%`;
+
+        animateValue(breakdownItem1El, lastBreakdownDisplay.items[0], item1, formatYen, 320);
+        animateValue(breakdownItem2El, lastBreakdownDisplay.items[1], item2, formatYen, 320);
+        animateValue(breakdownItem3El, lastBreakdownDisplay.items[2], item3, formatYen, 320);
+        animateValue(breakdownItem4El, lastBreakdownDisplay.items[3], item4, formatYen, 320);
+        animateValue(breakdownItem5El, lastBreakdownDisplay.items[4], item5, formatYen, 320);
+        animateValue(breakdownExpenseItemEl, lastBreakdownDisplay.expense, expenseExTax, formatYen, 320);
+        animateValue(breakdownTotalExEl, lastBreakdownDisplay.totalExTax, grandExTax, formatYen, 340);
+        animateValue(breakdownTaxEl, lastBreakdownDisplay.tax, tax, formatYen, 340);
+        animateValue(breakdownTotalIncEl, lastBreakdownDisplay.totalIncTax, total, formatYen, 340);
+        animateValue(breakdownRatio1El, lastBreakdownDisplay.ratiosTenths[0], ratioTenths[0], formatTenthsPercent, 280);
+        animateValue(breakdownRatio2El, lastBreakdownDisplay.ratiosTenths[1], ratioTenths[1], formatTenthsPercent, 280);
+        animateValue(breakdownRatio3El, lastBreakdownDisplay.ratiosTenths[2], ratioTenths[2], formatTenthsPercent, 280);
+        animateValue(breakdownRatio4El, lastBreakdownDisplay.ratiosTenths[3], ratioTenths[3], formatTenthsPercent, 280);
+        animateValue(breakdownRatio5El, lastBreakdownDisplay.ratiosTenths[4], ratioTenths[4], formatTenthsPercent, 280);
+        animateValue(
+          breakdownRatioExpenseEl,
+          lastBreakdownDisplay.expenseRatioTenths,
+          expenseRatioTenths,
+          formatTenthsPercent,
+          280
+        );
+        if (breakdownSegment1El) breakdownSegment1El.style.width = `${ratio1}%`;
+        if (breakdownSegment2El) breakdownSegment2El.style.width = `${ratio2}%`;
+        if (breakdownSegment3El) breakdownSegment3El.style.width = `${ratio3}%`;
+        if (breakdownSegment4El) breakdownSegment4El.style.width = `${ratio4}%`;
+        if (breakdownSegment5El) breakdownSegment5El.style.width = `${ratio5}%`;
+        if (breakdownSegmentExpenseEl) breakdownSegmentExpenseEl.style.width = `${expenseRatio}%`;
+
+        lastBreakdownDisplay = {
+          items: [item1, item2, item3, item4, item5],
+          expense: expenseExTax,
+          totalExTax: grandExTax,
+          tax,
+          totalIncTax: total,
+          ratiosTenths: ratioTenths,
+          expenseRatioTenths,
+        };
       }
 
       function recalc() {
         let itemTotal = 0;
         let total = 0;
         let count = 0;
+        let rightsAppliedFee = 0;
+        let rightsReduction = 0;
+        let expenseTotal = 0;
+        const expenseRows = [];
         const discountRows = [];
 
         rows.forEach((row) => {
@@ -1455,10 +2236,15 @@ tatsuya-goto@wak4kusa296.com
             discountRows.push(row);
             return;
           }
+          if (row.dataset.rowType === "expense") {
+            expenseRows.push(row);
+            return;
+          }
 
           const unitPrice = Number(row.dataset.price || "0");
           const qtyInput = row.querySelector(".qty-input");
           const adjustInput = row.querySelector(".adjust-input");
+          const copyrightCheckbox = row.querySelector(".copyright-checkbox");
           const subtotalCell = row.querySelector(".subtotal-cell span");
 
           let qty = Number(qtyInput.value || "1");
@@ -1472,17 +2258,44 @@ tatsuya-goto@wak4kusa296.com
 
           const base = unitPrice * qty;
           const factor = 1 + boostPercent / 100;
-          const sub = Math.round(base * factor);
+          const baseSubtotal = Math.round(base * factor);
+          const isRightsToggleable =
+            Boolean(copyrightCheckbox) && !Boolean(copyrightCheckbox?.disabled);
+          const rightsChecked = isRightsToggleable ? Boolean(copyrightCheckbox?.checked) : true;
+          const rightsMultiplier = rightsChecked ? 1 : 0.7;
+          const sub = Math.round(baseSubtotal * rightsMultiplier);
 
           if (sub > 0) {
             count += 1;
           }
 
           itemTotal += sub;
+          if (isRightsToggleable && rightsChecked) {
+            rightsAppliedFee += baseSubtotal;
+          }
+          if (isRightsToggleable && !rightsChecked) {
+            rightsReduction += baseSubtotal - sub;
+          }
           subtotalCell.textContent = formatYen(sub);
         });
 
         total = itemTotal;
+
+        expenseRows.forEach((row) => {
+          const expenseInput = row.querySelector(".expense-input");
+          const subtotalCell = row.querySelector(".subtotal-cell span");
+          let amount = Number(expenseInput?.value || "0");
+          if (!Number.isFinite(amount) || amount < 0) amount = 0;
+          const sub = Math.round(amount);
+          total += sub;
+          expenseTotal += sub;
+          if (sub > 0) {
+            count += 1;
+          }
+          if (subtotalCell) {
+            subtotalCell.textContent = formatYen(sub);
+          }
+        });
 
         // 割引は制作物小計の後に順次適用
         discountRows.forEach((row) => {
@@ -1516,19 +2329,27 @@ tatsuya-goto@wak4kusa296.com
         // アニメーション付きで数値を更新
         animateValue(totalNumberEl, lastTotal, total, formatYen, 450);
         animateValue(subtotalTextEl, lastSubtotal, total, formatYen, 450);
+        animateValue(copyrightFeeTextEl, lastRightsReduction, rightsReduction, (v) => `-${formatYen(v)}`, 400);
+        if (copyrightFeeLineEl) {
+          copyrightFeeLineEl.style.display = rightsReduction > 0 ? "grid" : "none";
+        }
         animateValue(taxTextEl, lastTax, tax, formatYen, 450);
         animateValue(
           itemsCountTextEl,
           lastCount,
           count,
-          (v) => `項目数 ${v} ／ 小計（税込）`,
+          (v) => `項目数 ${v} ／ 合計（税込）`,
           400
         );
 
         lastTotal = total;
         lastSubtotal = total;
+        lastCopyrightFee = rightsAppliedFee;
+        lastRightsReduction = rightsReduction;
+        lastExpenseTotal = expenseTotal;
         lastTax = tax;
         lastCount = count;
+        updateBreakdownByTotal(total);
 
       }
 
@@ -1562,6 +2383,7 @@ tatsuya-goto@wak4kusa296.com
               unitPriceCell.textContent = "ASK";
             }
           }
+          syncCopyrightAvailability(row);
 
         });
 
@@ -1632,7 +2454,7 @@ tatsuya-goto@wak4kusa296.com
           .catch((err) => {
             console.error(err);
             tbody.innerHTML =
-              '<tr><td colspan="4">料金表（price_table.csv）の読み込みに失敗しました。</td></tr>';
+              '<tr><td colspan="7">料金表（price_table.csv）の読み込みに失敗しました。</td></tr>';
           });
       }
 
@@ -1693,6 +2515,7 @@ tatsuya-goto@wak4kusa296.com
                 data-personal="${item.personal || "0"}"
                 data-corporate="${item.corporate || "0"}"
                 data-suffix="${item.suffix || ""}"
+                data-section="${item.section || ""}"
               >
                 <div class="modal-item-main">
                   <div class="modal-item-name">${item.name || ""}</div>
@@ -1716,14 +2539,17 @@ tatsuya-goto@wak4kusa296.com
             const personal = btn.getAttribute("data-personal") || "0";
             const corporate = btn.getAttribute("data-corporate") || "0";
             const suffix = btn.getAttribute("data-suffix") || "";
+            const section = btn.getAttribute("data-section") || "";
 
             currentRowForModal.dataset.personal = personal;
             currentRowForModal.dataset.corporate = corporate;
+            currentRowForModal.dataset.section = section;
             if (suffix) {
               currentRowForModal.dataset.suffix = suffix;
             } else {
               delete currentRowForModal.dataset.suffix;
             }
+            syncCopyrightAvailability(currentRowForModal);
 
             const labelSpan = currentRowForModal.querySelector(".item-picker-btn-label");
             if (labelSpan) {
@@ -1860,6 +2686,7 @@ tatsuya-goto@wak4kusa296.com
                 data-personal="${item.personal || "0"}"
                 data-corporate="${item.corporate || "0"}"
                 data-suffix="${item.suffix || ""}"
+                data-section="${item.section || ""}"
               >
                 <div class="modal-item-main">
                   <div class="modal-item-name">${item.name || ""}</div>
@@ -1883,14 +2710,17 @@ tatsuya-goto@wak4kusa296.com
             const personal = btn.getAttribute("data-personal") || "0";
             const corporate = btn.getAttribute("data-corporate") || "0";
             const suffix = btn.getAttribute("data-suffix") || "";
+            const section = btn.getAttribute("data-section") || "";
 
             tr.dataset.personal = personal;
             tr.dataset.corporate = corporate;
+            tr.dataset.section = section;
             if (suffix) {
               tr.dataset.suffix = suffix;
             } else {
               delete tr.dataset.suffix;
             }
+            syncCopyrightAvailability(tr);
 
             const labelSpan = tr.querySelector(".item-picker-btn-label");
             if (labelSpan) {
@@ -1927,6 +2757,12 @@ tatsuya-goto@wak4kusa296.com
         indicatorSpan.textContent = "一覧から選択";
         pickerBtn.appendChild(labelSpan);
         pickerBtn.appendChild(indicatorSpan);
+        const headingInput = document.createElement("input");
+        headingInput.type = "text";
+        headingInput.className = "item-heading-input";
+        headingInput.placeholder = "見出し（固有名）を入力";
+        headingInput.setAttribute("aria-label", "項目の見出し（固有名）");
+        tdName.appendChild(headingInput);
         tdName.appendChild(pickerBtn);
 
         const tdPrice = document.createElement("td");
@@ -1989,6 +2825,19 @@ tatsuya-goto@wak4kusa296.com
         tdAdjust.appendChild(boostLabel);
         tdAdjust.appendChild(boostStepper);
 
+        const tdCopyright = document.createElement("td");
+        tdCopyright.className = "copyright-cell";
+        const copyrightLabel = document.createElement("span");
+        copyrightLabel.className = "field-label";
+        copyrightLabel.textContent = "権利譲渡";
+        const copyrightCheckbox = document.createElement("input");
+        copyrightCheckbox.type = "checkbox";
+        copyrightCheckbox.className = "copyright-checkbox";
+        copyrightCheckbox.checked = true;
+        copyrightCheckbox.setAttribute("aria-label", "権利譲渡対象");
+        tdCopyright.appendChild(copyrightLabel);
+        tdCopyright.appendChild(copyrightCheckbox);
+
         const tdSubtotal = document.createElement("td");
         tdSubtotal.className = "subtotal-cell";
         const subtotalSpan = document.createElement("span");
@@ -2008,6 +2857,7 @@ tatsuya-goto@wak4kusa296.com
         tr.appendChild(tdPrice);
         tr.appendChild(tdQty);
         tr.appendChild(tdAdjust);
+        tr.appendChild(tdCopyright);
         tr.appendChild(tdSubtotal);
 
         tbody.appendChild(tr);
@@ -2015,6 +2865,7 @@ tatsuya-goto@wak4kusa296.com
         // 行データの初期値（商品未選択）
         tr.dataset.personal = "0";
         tr.dataset.corporate = "0";
+        tr.dataset.section = "";
 
         rows = Array.from(tbody.querySelectorAll("tr"));
 
@@ -2026,6 +2877,7 @@ tatsuya-goto@wak4kusa296.com
         // 入力イベント
         const qtyInput = tr.querySelector(".qty-input");
         const boostInput = tr.querySelector(".adjust-input");
+        const copyrightInput = tr.querySelector(".copyright-checkbox");
         if (qtyInput) {
           qtyInput.addEventListener("input", recalc);
           qtyInput.addEventListener("change", recalc);
@@ -2033,6 +2885,9 @@ tatsuya-goto@wak4kusa296.com
         if (boostInput) {
           boostInput.addEventListener("input", recalc);
           boostInput.addEventListener("change", recalc);
+        }
+        if (copyrightInput) {
+          copyrightInput.addEventListener("change", recalc);
         }
 
         function stepInputValue(targetInput, direction) {
@@ -2063,6 +2918,7 @@ tatsuya-goto@wak4kusa296.com
         });
 
         // 新規行にも現在のセグメントを反映
+        syncCopyrightAvailability(tr);
         applySegment(currentSegment);
         return tr;
       }
@@ -2129,6 +2985,10 @@ tatsuya-goto@wak4kusa296.com
         discountNote.textContent = "合計から%割引";
         tdAdjust.appendChild(discountNote);
 
+        const tdCopyright = document.createElement("td");
+        tdCopyright.className = "copyright-cell";
+        tdCopyright.textContent = "-";
+
         const tdSubtotal = document.createElement("td");
         tdSubtotal.className = "subtotal-cell";
         const subtotalSpan = document.createElement("span");
@@ -2148,6 +3008,7 @@ tatsuya-goto@wak4kusa296.com
         tr.appendChild(tdPrice);
         tr.appendChild(tdQty);
         tr.appendChild(tdAdjust);
+        tr.appendChild(tdCopyright);
         tr.appendChild(tdSubtotal);
 
         tbody.appendChild(tr);
@@ -2244,6 +3105,112 @@ tatsuya-goto@wak4kusa296.com
         recalc();
       }
 
+      function createExpenseRow() {
+        const tr = document.createElement("tr");
+        tr.dataset.rowType = "expense";
+
+        const tdName = document.createElement("td");
+        const expenseName = document.createElement("input");
+        expenseName.type = "text";
+        expenseName.className = "item-name expense-name-input";
+        expenseName.value = "支出経費";
+        expenseName.placeholder = "支出経費名";
+        expenseName.setAttribute("aria-label", "支出経費名");
+        tdName.appendChild(expenseName);
+
+        const tdPrice = document.createElement("td");
+        tdPrice.className = "price";
+        tdPrice.textContent = "実費（税込）";
+
+        const tdQty = document.createElement("td");
+        const expenseLabel = document.createElement("span");
+        expenseLabel.className = "field-label";
+        expenseLabel.textContent = "金額（税込）";
+        const expenseStepper = document.createElement("div");
+        expenseStepper.className = "number-stepper";
+        const minusBtn = document.createElement("button");
+        minusBtn.type = "button";
+        minusBtn.className = "step-btn";
+        minusBtn.textContent = "-";
+        const expenseInput = document.createElement("input");
+        expenseInput.type = "number";
+        expenseInput.className = "qty-input expense-input";
+        expenseInput.min = "0";
+        expenseInput.step = "100";
+        expenseInput.value = "0";
+        expenseInput.setAttribute("aria-label", "支出経費金額");
+        const plusBtn = document.createElement("button");
+        plusBtn.type = "button";
+        plusBtn.className = "step-btn";
+        plusBtn.textContent = "+";
+        expenseStepper.appendChild(minusBtn);
+        expenseStepper.appendChild(expenseInput);
+        expenseStepper.appendChild(plusBtn);
+        tdQty.appendChild(expenseLabel);
+        tdQty.appendChild(expenseStepper);
+
+        const tdAdjust = document.createElement("td");
+        tdAdjust.className = "price";
+        const expenseNote = document.createElement("span");
+        expenseNote.className = "discount-note";
+        expenseNote.textContent = "実費精算";
+        tdAdjust.appendChild(expenseNote);
+
+        const tdCopyright = document.createElement("td");
+        tdCopyright.className = "copyright-cell";
+        tdCopyright.textContent = "-";
+
+        const tdSubtotal = document.createElement("td");
+        tdSubtotal.className = "subtotal-cell";
+        const subtotalSpan = document.createElement("span");
+        subtotalSpan.textContent = "¥0";
+        tdSubtotal.appendChild(subtotalSpan);
+
+        const tdDelete = document.createElement("td");
+        tdDelete.className = "price";
+        const deleteBtn = document.createElement("button");
+        deleteBtn.type = "button";
+        deleteBtn.className = "row-delete-btn";
+        deleteBtn.textContent = "×";
+        tdDelete.appendChild(deleteBtn);
+
+        tr.appendChild(tdName);
+        tr.appendChild(tdDelete);
+        tr.appendChild(tdPrice);
+        tr.appendChild(tdQty);
+        tr.appendChild(tdAdjust);
+        tr.appendChild(tdCopyright);
+        tr.appendChild(tdSubtotal);
+
+        tbody.appendChild(tr);
+        rows = Array.from(tbody.querySelectorAll("tr"));
+
+        function stepInputValue(targetInput, direction) {
+          const step = Number(targetInput.step || "1") || 1;
+          const min = targetInput.min === "" ? -Infinity : Number(targetInput.min);
+          const max = targetInput.max === "" ? Infinity : Number(targetInput.max);
+          let current = Number(targetInput.value || "0");
+          if (!Number.isFinite(current)) current = 0;
+          let next = current + direction * step;
+          if (next < min) next = min;
+          if (next > max) next = max;
+          targetInput.value = String(next);
+          targetInput.dispatchEvent(new Event("input", { bubbles: true }));
+        }
+
+        expenseInput.addEventListener("input", recalc);
+        expenseInput.addEventListener("change", recalc);
+        minusBtn.addEventListener("click", () => stepInputValue(expenseInput, -1));
+        plusBtn.addEventListener("click", () => stepInputValue(expenseInput, 1));
+        deleteBtn.addEventListener("click", () => {
+          tbody.removeChild(tr);
+          rows = Array.from(tbody.querySelectorAll("tr"));
+          recalc();
+        });
+
+        recalc();
+      }
+
       if (addRowBtn) {
         addRowBtn.addEventListener("click", () => {
           if (!dataRows || dataRows.length === 0) return;
@@ -2254,6 +3221,11 @@ tatsuya-goto@wak4kusa296.com
       if (addDiscountRowBtn) {
         addDiscountRowBtn.addEventListener("click", () => {
           openDiscountTypeModalForCreate();
+        });
+      }
+      if (addExpenseRowBtn) {
+        addExpenseRowBtn.addEventListener("click", () => {
+          createExpenseRow();
         });
       }
 
@@ -2286,6 +3258,33 @@ tatsuya-goto@wak4kusa296.com
       }
       if (clientInfoEl) {
         clientInfoEl.addEventListener("input", updatePrintPartyInfo);
+      }
+      updateBreakdownByTotal(0);
+
+      // 項目・オプション変更時に割合を必ず再計算
+      if (tbody) {
+        const triggerSelector =
+          ".qty-input, .expense-input, .adjust-input, .discount-input, .copyright-checkbox, .item-picker-btn, .discount-type-btn, .row-delete-btn";
+        ["input", "change", "click"].forEach((eventName) => {
+          tbody.addEventListener(eventName, (event) => {
+            const target = event.target;
+            if (!(target instanceof Element)) return;
+            if (!target.closest(triggerSelector)) return;
+            scheduleBreakdownRecalc();
+          });
+        });
+      }
+      segmentRadios.forEach((radio) => {
+        radio.addEventListener("change", scheduleBreakdownRecalc);
+      });
+      if (addRowBtn) {
+        addRowBtn.addEventListener("click", scheduleBreakdownRecalc);
+      }
+      if (addExpenseRowBtn) {
+        addExpenseRowBtn.addEventListener("click", scheduleBreakdownRecalc);
+      }
+      if (addDiscountRowBtn) {
+        addDiscountRowBtn.addEventListener("click", scheduleBreakdownRecalc);
       }
 
       document.addEventListener("keydown", (e) => {
